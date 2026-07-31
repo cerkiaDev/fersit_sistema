@@ -1,0 +1,53 @@
+﻿{% extends 'base.html' %}
+{% block title %}Solicitar Cotización - FERSIT Alarmas{% endblock %}
+{% block content %}
+<section class="hero" style="padding:4rem 0;">
+  <div class="container">
+    <span class="hero-badge"><i class="bi bi-file-earmark-text-fill"></i> Sin compromiso</span>
+    <h1>Solicitar Cotización</h1>
+    <p class="lead mt-2">Cuéntanos qué necesitas y te enviaremos una propuesta personalizada.</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-9">
+        <div class="form-card">
+          <form method="post">
+            {% csrf_token %}
+            <h5 class="mb-3" style="color:var(--fersit-navy);"><i class="bi bi-person-circle"></i> Datos de contacto</h5>
+            <div class="row g-3 mb-4">
+              <div class="col-md-6"><label class="form-label">Nombre completo *</label><input name="nombre" class="form-control" value="{{ form.nombre.value|default:'' }}" required></div>
+              <div class="col-md-6"><label class="form-label">Teléfono *</label><input name="telefono" class="form-control" value="{{ form.telefono.value|default:'' }}" required></div>
+              <div class="col-md-6"><label class="form-label">Correo electrónico</label><input name="correo" type="email" class="form-control" value="{{ form.correo.value|default:'' }}"></div>
+              <div class="col-md-6"><label class="form-label">Dirección</label><input name="direccion" class="form-control" value="{{ form.direccion.value|default:'' }}"></div>
+            </div>
+            <h5 class="mb-3" style="color:var(--fersit-navy);"><i class="bi bi-gear-fill"></i> Servicio requerido</h5>
+            <div class="row g-3">
+              <div class="col-md-6"><label class="form-label">Tipo de servicio *</label>
+                <select name="servicio_interes" class="form-select" required>
+                  <option value="">-- Selecciona --</option>
+                  <option>Alarma residencial</option><option>Alarma comercial</option>
+                  <option>Cámaras CCTV</option><option>Control de accesos</option>
+                  <option>Cerco eléctrico</option><option>Mantenimiento</option><option>Otro</option>
+                </select>
+              </div>
+              <div class="col-md-6"><label class="form-label">Tipo de inmueble</label>
+                <select class="form-select"><option>Vivienda</option><option>Oficina</option><option>Local comercial</option><option>Bodega</option><option>Otro</option></select>
+              </div>
+              <div class="col-12"><label class="form-label">Describe tu necesidad *</label><textarea name="mensaje" class="form-control" rows="5" placeholder="Ej: Necesito 4 cámaras exteriores y alarma con sensor de movimiento para mi casa de 200m²" required>{{ form.mensaje.value|default:'' }}</textarea></div>
+              <div class="col-12 d-flex flex-wrap gap-2">
+                <button class="btn btn-fersit"><i class="bi bi-send"></i> Enviar solicitud</button>
+                <button type="reset" class="btn btn-fersit-outline">Limpiar</button>
+                <a href="{% url 'inicio' %}" class="btn btn-link ms-auto">Cancelar</a>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"><title>Solicitudes - FERSIT Admin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="../css/styles.css" rel="stylesheet">
+</head>
+<body class="admin-body">
+<aside class="admin-sidebar">
+  <div class="brand"><i class="bi bi-shield-shaded"></i> FERSIT</div>
+  <div class="sidebar-label">Principal</div>
+  <a class="nav-link" href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a>
+  <div class="sidebar-label">Gestión</div>
+  <a class="nav-link" href="clientes.html"><i class="bi bi-people-fill"></i> Clientes</a>
+  <a class="nav-link" href="productos.html"><i class="bi bi-box-seam-fill"></i> Productos</a>
+  <a class="nav-link" href="cotizaciones.html"><i class="bi bi-file-earmark-text-fill"></i> Cotizaciones</a>
+  <a class="nav-link active" href="solicitudes.html"><i class="bi bi-inbox-fill"></i> Solicitudes</a>
+  <div class="sidebar-label">Sesión</div>
+  <a class="nav-link" href="../login.html"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a>
+</aside>
+<div class="sidebar-backdrop"></div>
+
+<main class="admin-main">
+  <div class="admin-topbar">
+    <div class="d-flex align-items-center gap-2"><button class="sidebar-toggle"><i class="bi bi-list"></i></button><div><h6 class="mb-0">Solicitudes</h6><small class="text-muted">Bandeja de entrada</small></div></div>
+    <div class="user-chip"><div class="avatar">A</div><span class="d-none d-sm-inline">Administrador</span></div>
+  </div>
+  <div class="admin-content">
+    <div class="page-header">
+      <div><h1>Solicitudes de cotización</h1><div class="breadcrumb-mini">Inicio / Solicitudes</div></div>
+    </div>
+    <div class="fersit-table-card">
+      <div class="table-toolbar">
+        <div class="input-group" style="max-width:340px;"><span class="input-group-text bg-white"><i class="bi bi-search"></i></span><input class="form-control" placeholder="Buscar..."></div>
+        <select class="form-select form-select-sm" style="max-width:200px;"><option>Todos los estados</option><option>Nuevas</option><option>En proceso</option><option>Atendidas</option></select>
+      </div>
+      <div class="table-responsive">
+        <table class="table fersit-table align-middle">
+          <thead><tr><th>Nombre</th><th>Teléfono</th><th>Correo</th><th>Dirección</th><th>Servicio</th><th>Mensaje</th><th>Fecha</th><th>Estado</th></tr></thead>
+          <tbody>
+            <tr><td class="fw-semibold">Ana Suárez</td><td>+593 99 111 2222</td><td>ana@mail.com</td><td>Quito - La Carolina</td><td>Cámaras</td><td class="text-muted small">Necesito 6 cámaras para oficina...</td><td>30/06/26</td><td><span class="badge-status badge-pending">Nueva</span></td></tr>
+            <tr><td class="fw-semibold">Pedro Vaca</td><td>+593 98 333 4444</td><td>pvaca@mail.com</td><td>Cumbayá</td><td>Alarma</td><td class="text-muted small">Casa de 3 dormitorios, requiero sensores...</td><td>29/06/26</td><td><span class="badge-status badge-approved">En proceso</span></td></tr>
+            <tr><td class="fw-semibold">Lucía Rivera</td><td>+593 97 555 6666</td><td>lucia.r@mail.com</td><td>Tumbaco</td><td>Mantenimiento</td><td class="text-muted small">Mi alarma actual presenta fallos...</td><td>28/06/26</td><td><span class="badge-status badge-pending">Nueva</span></td></tr>
+            <tr><td class="fw-semibold">Marco Tobar</td><td>+593 96 777 8888</td><td>marco@mail.com</td><td>Valle de los Chillos</td><td>Cerco eléctrico</td><td class="text-muted small">Perímetro de 60 metros...</td><td>27/06/26</td><td><span class="badge-status badge-active">Atendida</span></td></tr>
+            <tr><td class="fw-semibold">Sofía Naranjo</td><td>+593 99 222 3333</td><td>sofia.n@mail.com</td><td>Quito - El Batán</td><td>Control de accesos</td><td class="text-muted small">Edificio con 2 puertas principales...</td><td>26/06/26</td><td><span class="badge-status badge-active">Atendida</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/app.js"></script>
+</body></html>

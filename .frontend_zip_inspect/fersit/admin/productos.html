@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"><title>Productos - FERSIT Admin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="../css/styles.css" rel="stylesheet">
+</head>
+<body class="admin-body">
+<aside class="admin-sidebar">
+  <div class="brand"><i class="bi bi-shield-shaded"></i> FERSIT</div>
+  <div class="sidebar-label">Principal</div>
+  <a class="nav-link" href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a>
+  <div class="sidebar-label">Gestión</div>
+  <a class="nav-link" href="clientes.html"><i class="bi bi-people-fill"></i> Clientes</a>
+  <a class="nav-link active" href="productos.html"><i class="bi bi-box-seam-fill"></i> Productos</a>
+  <a class="nav-link" href="cotizaciones.html"><i class="bi bi-file-earmark-text-fill"></i> Cotizaciones</a>
+  <a class="nav-link" href="solicitudes.html"><i class="bi bi-inbox-fill"></i> Solicitudes</a>
+  <div class="sidebar-label">Sesión</div>
+  <a class="nav-link" href="../login.html"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a>
+</aside>
+<div class="sidebar-backdrop"></div>
+
+<main class="admin-main">
+  <div class="admin-topbar">
+    <div class="d-flex align-items-center gap-2"><button class="sidebar-toggle"><i class="bi bi-list"></i></button><div><h6 class="mb-0">Productos</h6><small class="text-muted">Catálogo</small></div></div>
+    <div class="user-chip"><div class="avatar">A</div><span class="d-none d-sm-inline">Administrador</span></div>
+  </div>
+  <div class="admin-content">
+    <div class="page-header">
+      <div><h1>Productos</h1><div class="breadcrumb-mini">Inicio / Productos</div></div>
+      <button class="btn btn-fersit" data-bs-toggle="modal" data-bs-target="#prodModal"><i class="bi bi-plus-lg"></i> Nuevo Producto</button>
+    </div>
+    <div class="fersit-table-card">
+      <div class="table-toolbar">
+        <div class="input-group" style="max-width:340px;"><span class="input-group-text bg-white"><i class="bi bi-search"></i></span><input class="form-control" placeholder="Buscar producto..."></div>
+        <select class="form-select form-select-sm" style="max-width:180px;"><option>Todos</option><option>Activos</option><option>Inactivos</option></select>
+      </div>
+      <div class="table-responsive">
+        <table class="table fersit-table align-middle">
+          <thead><tr><th>Imagen</th><th>Nombre</th><th>Descripción</th><th>Precio Base</th><th>Estado</th><th class="text-end">Acciones</th></tr></thead>
+          <tbody>
+            <tr><td><div class="product-thumb d-flex align-items-center justify-content-center" style="color:var(--fersit-navy);"><i class="bi bi-bell-fill fs-4"></i></div></td><td class="fw-semibold">Alarma Residencial Básica</td><td class="text-muted small">Panel + 3 sensores + sirena</td><td class="fw-semibold">$250.00</td><td><span class="badge-status badge-active">Activo</span></td><td class="text-end"><button class="btn btn-sm btn-sm-icon btn-outline-secondary"><i class="bi bi-pencil"></i></button> <button class="btn btn-sm btn-sm-icon btn-outline-danger"><i class="bi bi-trash"></i></button></td></tr>
+            <tr><td><div class="product-thumb d-flex align-items-center justify-content-center" style="color:var(--fersit-navy);"><i class="bi bi-camera-video-fill fs-4"></i></div></td><td class="fw-semibold">Cámara IP HD Exterior</td><td class="text-muted small">2MP, visión nocturna, IP66</td><td class="fw-semibold">$120.00</td><td><span class="badge-status badge-active">Activo</span></td><td class="text-end"><button class="btn btn-sm btn-sm-icon btn-outline-secondary"><i class="bi bi-pencil"></i></button> <button class="btn btn-sm btn-sm-icon btn-outline-danger"><i class="bi bi-trash"></i></button></td></tr>
+            <tr><td><div class="product-thumb d-flex align-items-center justify-content-center" style="color:var(--fersit-navy);"><i class="bi bi-broadcast fs-4"></i></div></td><td class="fw-semibold">Sensor de Movimiento PIR</td><td class="text-muted small">Inalámbrico, 12m de alcance</td><td class="fw-semibold">$35.00</td><td><span class="badge-status badge-active">Activo</span></td><td class="text-end"><button class="btn btn-sm btn-sm-icon btn-outline-secondary"><i class="bi bi-pencil"></i></button> <button class="btn btn-sm btn-sm-icon btn-outline-danger"><i class="bi bi-trash"></i></button></td></tr>
+            <tr><td><div class="product-thumb d-flex align-items-center justify-content-center" style="color:var(--fersit-navy);"><i class="bi bi-cpu-fill fs-4"></i></div></td><td class="fw-semibold">Panel de Control Inalámbrico</td><td class="text-muted small">32 zonas, WiFi + GSM</td><td class="fw-semibold">$180.00</td><td><span class="badge-status badge-inactive">Inactivo</span></td><td class="text-end"><button class="btn btn-sm btn-sm-icon btn-outline-secondary"><i class="bi bi-pencil"></i></button> <button class="btn btn-sm btn-sm-icon btn-outline-danger"><i class="bi bi-trash"></i></button></td></tr>
+            <tr><td><div class="product-thumb d-flex align-items-center justify-content-center" style="color:var(--fersit-navy);"><i class="bi bi-volume-up-fill fs-4"></i></div></td><td class="fw-semibold">Sirena Exterior 30W</td><td class="text-muted small">120dB con luz estroboscópica</td><td class="fw-semibold">$65.00</td><td><span class="badge-status badge-active">Activo</span></td><td class="text-end"><button class="btn btn-sm btn-sm-icon btn-outline-secondary"><i class="bi bi-pencil"></i></button> <button class="btn btn-sm btn-sm-icon btn-outline-danger"><i class="bi bi-trash"></i></button></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</main>
+
+<div class="modal fade" id="prodModal" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content" style="border-radius:16px;border:0;">
+      <div class="modal-header"><h5 class="modal-title">Nuevo Producto</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+      <div class="modal-body">
+        <form><div class="row g-3">
+          <div class="col-md-8"><label class="form-label">Nombre *</label><input class="form-control" required></div>
+          <div class="col-md-4"><label class="form-label">Precio Base *</label><div class="input-group"><span class="input-group-text">$</span><input type="number" step="0.01" class="form-control" required></div></div>
+          <div class="col-md-12"><label class="form-label">Descripción</label><textarea class="form-control" rows="3"></textarea></div>
+          <div class="col-md-8"><label class="form-label">Imagen</label><input type="file" class="form-control"></div>
+          <div class="col-md-4"><label class="form-label">Estado</label><div class="form-check form-switch mt-2"><input class="form-check-input" type="checkbox" checked id="actSw"><label class="form-check-label" for="actSw">Activo</label></div></div>
+        </div></form>
+      </div>
+      <div class="modal-footer"><button class="btn btn-fersit-outline" data-bs-dismiss="modal">Cancelar</button><button class="btn btn-fersit"><i class="bi bi-check2"></i> Guardar</button></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/app.js"></script>
+</body></html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"><title>Dashboard - FERSIT Admin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="../css/styles.css" rel="stylesheet">
+</head>
+<body class="admin-body">
+
+<!-- {% include 'includes/sidebar.html' %} -->
+<aside class="admin-sidebar">
+  <div class="brand"><i class="bi bi-shield-shaded"></i> FERSIT</div>
+  <div class="sidebar-label">Principal</div>
+  <a class="nav-link active" href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a>
+  <div class="sidebar-label">Gestión</div>
+  <a class="nav-link" href="clientes.html"><i class="bi bi-people-fill"></i> Clientes</a>
+  <a class="nav-link" href="productos.html"><i class="bi bi-box-seam-fill"></i> Productos</a>
+  <a class="nav-link" href="cotizaciones.html"><i class="bi bi-file-earmark-text-fill"></i> Cotizaciones</a>
+  <a class="nav-link" href="solicitudes.html"><i class="bi bi-inbox-fill"></i> Solicitudes</a>
+  <div class="sidebar-label">Sesión</div>
+  <a class="nav-link" href="../login.html"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a>
+</aside>
+<div class="sidebar-backdrop"></div>
+
+<main class="admin-main">
+  <!-- {% include 'includes/topbar.html' %} -->
+  <div class="admin-topbar">
+    <div class="d-flex align-items-center gap-2">
+      <button class="sidebar-toggle"><i class="bi bi-list"></i></button>
+      <div><h6 class="mb-0">Dashboard</h6><small class="text-muted">Resumen general</small></div>
+    </div>
+    <div class="user-chip"><div class="avatar">A</div><span class="d-none d-sm-inline">Administrador</span></div>
+  </div>
+
+  <div class="admin-content">
+    <div class="page-header">
+      <div><h1>Bienvenido de vuelta</h1><div class="breadcrumb-mini">Aquí está el resumen de tu operación.</div></div>
+      <a href="cotizacion-editor.html" class="btn btn-fersit"><i class="bi bi-plus-lg"></i> Nueva Cotización</a>
+    </div>
+
+    <div class="row g-3 mb-4">
+      <div class="col-sm-6 col-lg-3"><div class="stat-card"><div><div class="stat-label">Clientes</div><div class="stat-value">186</div><div class="stat-trend"><i class="bi bi-arrow-up"></i> +12 este mes</div></div><div class="stat-icon"><i class="bi bi-people-fill"></i></div></div></div>
+      <div class="col-sm-6 col-lg-3"><div class="stat-card"><div><div class="stat-label">Productos</div><div class="stat-value">42</div><div class="stat-trend"><i class="bi bi-check2"></i> 38 activos</div></div><div class="stat-icon"><i class="bi bi-box-seam-fill"></i></div></div></div>
+      <div class="col-sm-6 col-lg-3"><div class="stat-card"><div><div class="stat-label">Cotizaciones</div><div class="stat-value">312</div><div class="stat-trend"><i class="bi bi-arrow-up"></i> +24 este mes</div></div><div class="stat-icon"><i class="bi bi-file-earmark-text-fill"></i></div></div></div>
+      <div class="col-sm-6 col-lg-3"><div class="stat-card"><div><div class="stat-label">Solicitudes</div><div class="stat-value">17</div><div class="stat-trend" style="color:var(--fersit-warning);"><i class="bi bi-exclamation-circle"></i> 5 pendientes</div></div><div class="stat-icon"><i class="bi bi-inbox-fill"></i></div></div></div>
+    </div>
+
+    <div class="row g-3">
+      <div class="col-lg-8">
+        <div class="fersit-table-card">
+          <div class="table-toolbar"><h6 class="mb-0">Cotizaciones recientes</h6><a href="cotizaciones.html" class="small">Ver todas <i class="bi bi-arrow-right"></i></a></div>
+          <div class="table-responsive">
+            <table class="table fersit-table">
+              <thead><tr><th>#</th><th>Cliente</th><th>Servicio</th><th>Total</th><th>Estado</th><th>Fecha</th></tr></thead>
+              <tbody>
+                <tr><td class="fw-semibold">COT-0312</td><td>Juan Pérez</td><td>CCTV 6 cámaras</td><td>$1,240.00</td><td><span class="badge-status badge-approved">Aprobada</span></td><td>30/06/2026</td></tr>
+                <tr><td class="fw-semibold">COT-0311</td><td>María López</td><td>Alarma residencial</td><td>$580.00</td><td><span class="badge-status badge-pending">Pendiente</span></td><td>29/06/2026</td></tr>
+                <tr><td class="fw-semibold">COT-0310</td><td>Constructora S.A.</td><td>Control de accesos</td><td>$3,450.00</td><td><span class="badge-status badge-approved">Aprobada</span></td><td>28/06/2026</td></tr>
+                <tr><td class="fw-semibold">COT-0309</td><td>Carlos Mora</td><td>Cerco eléctrico</td><td>$890.00</td><td><span class="badge-status badge-rejected">Rechazada</span></td><td>27/06/2026</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="fersit-table-card p-4">
+          <h6 class="mb-3">Solicitudes nuevas</h6>
+          <ul class="list-unstyled mb-0">
+            <li class="d-flex gap-3 py-2 border-bottom"><i class="bi bi-person-circle fs-4 text-muted"></i><div><div class="fw-semibold small">Ana Suárez</div><small class="text-muted">Cámaras para oficina</small></div></li>
+            <li class="d-flex gap-3 py-2 border-bottom"><i class="bi bi-person-circle fs-4 text-muted"></i><div><div class="fw-semibold small">Pedro Vaca</div><small class="text-muted">Alarma residencial</small></div></li>
+            <li class="d-flex gap-3 py-2 border-bottom"><i class="bi bi-person-circle fs-4 text-muted"></i><div><div class="fw-semibold small">Lucía Rivera</div><small class="text-muted">Mantenimiento</small></div></li>
+            <li class="d-flex gap-3 py-2"><i class="bi bi-person-circle fs-4 text-muted"></i><div><div class="fw-semibold small">Marco Tobar</div><small class="text-muted">Cerco eléctrico</small></div></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/app.js"></script>
+</body></html>

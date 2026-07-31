@@ -1,0 +1,50 @@
+﻿{% extends 'base_admin.html' %}
+{% block title %}Dashboard - FERSIT Admin{% endblock %}
+{% block topbar_title %}Dashboard{% endblock %}
+{% block topbar_subtitle %}Resumen general{% endblock %}
+{% block content %}
+<div class="page-header">
+      <div><h1>Bienvenido de vuelta</h1><div class="breadcrumb-mini">Aquí está el resumen de tu operación.</div></div>
+      <a href="{% url 'admin_cotizacion_editor' %}" class="btn btn-fersit"><i class="bi bi-plus-lg"></i> Nueva Cotización</a>
+    </div>
+
+    <div class="row g-3 mb-4">
+      <div class="col-sm-6 col-lg-3"><div class="stat-card"><div><div class="stat-label">Clientes</div><div class="stat-value">{{ clientes_count }}</div><div class="stat-trend"><i class="bi bi-people"></i> registrados</div></div><div class="stat-icon"><i class="bi bi-people-fill"></i></div></div></div>
+      <div class="col-sm-6 col-lg-3"><div class="stat-card"><div><div class="stat-label">Productos</div><div class="stat-value">{{ productos_count }}</div><div class="stat-trend"><i class="bi bi-check2"></i> {{ productos_activos_count }} activos</div></div><div class="stat-icon"><i class="bi bi-box-seam-fill"></i></div></div></div>
+      <div class="col-sm-6 col-lg-3"><div class="stat-card"><div><div class="stat-label">Cotizaciones</div><div class="stat-value">{{ cotizaciones_count }}</div><div class="stat-trend"><i class="bi bi-file-earmark-text"></i> guardadas</div></div><div class="stat-icon"><i class="bi bi-file-earmark-text-fill"></i></div></div></div>
+      <div class="col-sm-6 col-lg-3"><div class="stat-card"><div><div class="stat-label">Solicitudes</div><div class="stat-value">{{ solicitudes_count }}</div><div class="stat-trend" style="color:var(--fersit-warning);"><i class="bi bi-exclamation-circle"></i> {{ solicitudes_pendientes_count }} pendientes</div></div><div class="stat-icon"><i class="bi bi-inbox-fill"></i></div></div></div>
+    </div>
+
+    <div class="row g-3">
+      <div class="col-lg-8">
+        <div class="fersit-table-card">
+          <div class="table-toolbar"><h6 class="mb-0">Cotizaciones recientes</h6><a href="{% url 'admin_cotizaciones' %}" class="small">Ver todas <i class="bi bi-arrow-right"></i></a></div>
+          <div class="table-responsive">
+            <table class="table fersit-table">
+              <thead><tr><th>#</th><th>Cliente</th><th>Servicio</th><th>Total</th><th>Estado</th><th>Fecha</th></tr></thead>
+              <tbody>
+                {% for cotizacion in cotizaciones_recientes %}
+                  <tr><td class="fw-semibold">{{ cotizacion.numero_cotizacion }}</td><td>{{ cotizacion.cliente.nombre }}</td><td>{{ cotizacion.titulo_servicio }}</td><td>${{ cotizacion.total }}</td><td><span class="badge-status {% if cotizacion.estado == 'aprobada' %}badge-approved{% elif cotizacion.estado == 'rechazada' %}badge-rejected{% else %}badge-pending{% endif %}">{{ cotizacion.get_estado_display }}</span></td><td>{{ cotizacion.fecha|date:"d/m/Y" }}</td></tr>
+                {% empty %}
+                  <tr><td colspan="6" class="text-center text-muted py-4">Sin cotizaciones registradas.</td></tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4">
+        <div class="fersit-table-card p-4">
+          <h6 class="mb-3">Solicitudes nuevas</h6>
+          <ul class="list-unstyled mb-0">
+            {% for solicitud in solicitudes_recientes %}
+              <li class="d-flex gap-3 py-2 border-bottom"><i class="bi bi-person-circle fs-4 text-muted"></i><div><div class="fw-semibold small">{{ solicitud.nombre }}</div><small class="text-muted">{{ solicitud.servicio_interes|default:"Sin servicio" }}</small></div></li>
+            {% empty %}
+              <li class="text-muted small">Sin solicitudes recientes.</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+{% endblock %}
+

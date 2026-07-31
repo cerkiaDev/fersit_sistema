@@ -1,0 +1,35 @@
+﻿{% extends 'base_admin.html' %}
+{% block title %}Solicitudes - FERSIT Admin{% endblock %}
+{% block topbar_title %}Solicitudes{% endblock %}
+{% block topbar_subtitle %}Solicitudes públicas{% endblock %}
+{% block content %}
+<div class="page-header">
+      <div><h1>Solicitudes de cotización</h1><div class="breadcrumb-mini">Inicio / Solicitudes</div></div>
+    </div>
+    <div class="fersit-table-card">
+      <div class="table-toolbar">
+        <div class="input-group" style="max-width:340px;"><span class="input-group-text bg-white"><i class="bi bi-search"></i></span><input class="form-control" placeholder="Buscar..."></div>
+        <form method="get">
+          <select name="estado" class="form-select form-select-sm" style="max-width:200px;" onchange="this.form.submit()">
+            <option value="">Todos los estados</option>
+            {% for value,label in estados %}
+              <option value="{{ value }}" {% if estado == value %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+          </select>
+        </form>
+      </div>
+      <div class="table-responsive">
+        <table class="table fersit-table align-middle">
+          <thead><tr><th>Nombre</th><th>Teléfono</th><th>Correo</th><th>Dirección</th><th>Servicio</th><th>Mensaje</th><th>Fecha</th><th>Estado</th></tr></thead>
+          <tbody>
+            {% for solicitud in solicitudes %}
+              <tr><td class="fw-semibold">{{ solicitud.nombre }}</td><td>{{ solicitud.telefono }}</td><td>{{ solicitud.correo|default:"" }}</td><td>{{ solicitud.direccion|default:"" }}</td><td>{{ solicitud.servicio_interes|default:"" }}</td><td class="text-muted small">{{ solicitud.mensaje|default:""|truncatechars:60 }}</td><td>{{ solicitud.fecha|date:"d/m/y" }}</td><td><span class="badge-status {% if solicitud.estado == 'atendida' %}badge-active{% elif solicitud.estado == 'rechazada' %}badge-rejected{% else %}badge-pending{% endif %}">{{ solicitud.get_estado_display }}</span></td></tr>
+            {% empty %}
+              <tr><td colspan="8" class="text-center text-muted py-4">Sin solicitudes registradas.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+{% endblock %}
+

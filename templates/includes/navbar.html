@@ -1,0 +1,20 @@
+<nav class="navbar navbar-expand-lg fersit-navbar sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="{% url 'inicio' %}">
+      <i class="bi bi-shield-shaded"></i> FERSIT <span class="text-muted fw-normal small">ALARMAS</span>
+    </a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+      <i class="bi bi-list fs-3"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="mainNav">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'inicio' %}active{% endif %}" href="{% url 'inicio' %}">Inicio</a></li>
+        <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'nosotros' %}active{% endif %}" href="{% url 'nosotros' %}">Nosotros</a></li>
+        <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'servicios' %}active{% endif %}" href="{% url 'servicios' %}">Servicios</a></li>
+        <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'contacto' %}active{% endif %}" href="{% url 'contacto' %}">Contacto</a></li>
+        <li class="nav-item ms-lg-2"><a class="btn btn-fersit-outline btn-sm" href="{% url 'cotizar' %}"><i class="bi bi-file-earmark-text"></i> Cotizar</a></li>
+        <li class="nav-item ms-lg-2"><a class="btn btn-fersit btn-sm" href="{% url 'login' %}"><i class="bi bi-box-arrow-in-right"></i> Ingresar</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>

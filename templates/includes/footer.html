@@ -1,0 +1,33 @@
+<footer class="fersit-footer">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-4">
+        <h5><i class="bi bi-shield-shaded"></i> FERSIT ALARMAS</h5>
+        <p class="small">Soluciones integrales de seguridad electrónica para hogares y empresas en todo Ecuador.</p>
+      </div>
+      <div class="col-6 col-md-2">
+        <h5>Empresa</h5>
+        <a href="{% url 'nosotros' %}">Nosotros</a>
+        <a href="{% url 'servicios' %}">Servicios</a>
+        <a href="{% url 'contacto' %}">Contacto</a>
+      </div>
+      <div class="col-6 col-md-3">
+        <h5>Servicios</h5>
+        <a href="#">Alarmas</a>
+        <a href="#">CCTV</a>
+        <a href="#">Control de Accesos</a>
+        <a href="#">Mantenimiento</a>
+      </div>
+      <div class="col-md-3">
+        <h5>Contacto</h5>
+        <a href="#"><i class="bi bi-geo-alt"></i> Quito, Ecuador</a>
+        <a href="#"><i class="bi bi-telephone"></i> +593 99 999 9999</a>
+        <a href="#"><i class="bi bi-envelope"></i> info@fersit.com</a>
+      </div>
+    </div>
+    <div class="footer-bottom d-flex flex-wrap justify-content-between gap-2">
+      <span>&copy; {% now "Y" %} FERSIT Alarmas. Todos los derechos reservados.</span>
+      <span><a href="#" class="me-3">Privacidad</a><a href="#">Términos</a></span>
+    </div>
+  </div>
+</footer>

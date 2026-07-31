@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>FERSIT Alarmas - Seguridad Electrónica Profesional</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="css/styles.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- {% include 'includes/navbar.html' %} -->
+<nav class="navbar navbar-expand-lg fersit-navbar sticky-top">
+  <div class="container">
+    <a class="navbar-brand" href="index.html">
+      <i class="bi bi-shield-shaded"></i> FERSIT <span class="text-muted fw-normal small">ALARMAS</span>
+    </a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+      <i class="bi bi-list fs-3"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="mainNav">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item"><a class="nav-link active" href="index.html">Inicio</a></li>
+        <li class="nav-item"><a class="nav-link" href="nosotros.html">Nosotros</a></li>
+        <li class="nav-item"><a class="nav-link" href="servicios.html">Servicios</a></li>
+        <li class="nav-item"><a class="nav-link" href="contacto.html">Contacto</a></li>
+        <li class="nav-item ms-lg-2"><a class="btn btn-fersit-outline btn-sm" href="cotizar.html"><i class="bi bi-file-earmark-text"></i> Cotizar</a></li>
+        <li class="nav-item ms-lg-2"><a class="btn btn-fersit btn-sm" href="login.html"><i class="bi bi-box-arrow-in-right"></i> Ingresar</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container position-relative">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-7">
+        <span class="hero-badge"><i class="bi bi-patch-check-fill"></i> Más de 15 años protegiendo Ecuador</span>
+        <h1>Seguridad electrónica<br>en la que <span style="color:#66B2FF;">puedes confiar</span></h1>
+        <p class="lead mt-3">Diseñamos, instalamos y damos mantenimiento a sistemas de alarmas, CCTV y control de accesos para hogares y empresas.</p>
+        <div class="d-flex flex-wrap gap-3 mt-4">
+          <a href="cotizar.html" class="btn btn-light btn-lg fw-semibold"><i class="bi bi-file-earmark-text"></i> Solicitar Cotización</a>
+          <a href="contacto.html" class="btn btn-outline-light btn-lg"><i class="bi bi-telephone"></i> Contactar</a>
+        </div>
+      </div>
+      <div class="col-lg-5 text-center d-none d-lg-block">
+        <i class="bi bi-shield-lock-fill" style="font-size:18rem; color:rgba(255,255,255,.12);"></i>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICIOS DESTACADOS -->
+<section>
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="section-title">Servicios destacados</h2>
+      <p class="section-subtitle">Soluciones integrales de seguridad electrónica</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-4">
+        <div class="fersit-card h-100"><div class="card-body">
+          <div class="service-icon"><i class="bi bi-bell-fill"></i></div>
+          <h4>Alarmas Residenciales</h4>
+          <p class="text-muted mb-0">Sistemas inalámbricos con monitoreo 24/7 y notificaciones a tu celular.</p>
+        </div></div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="fersit-card h-100"><div class="card-body">
+          <div class="service-icon"><i class="bi bi-camera-video-fill"></i></div>
+          <h4>CCTV / Videovigilancia</h4>
+          <p class="text-muted mb-0">Cámaras IP HD y 4K con grabación en la nube y acceso remoto desde cualquier lugar.</p>
+        </div></div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="fersit-card h-100"><div class="card-body">
+          <div class="service-icon"><i class="bi bi-key-fill"></i></div>
+          <h4>Control de Accesos</h4>
+          <p class="text-muted mb-0">Cerraduras inteligentes, lectores biométricos y gestión centralizada.</p>
+        </div></div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="fersit-card h-100"><div class="card-body">
+          <div class="service-icon"><i class="bi bi-broadcast"></i></div>
+          <h4>Cerco Eléctrico</h4>
+          <p class="text-muted mb-0">Protección perimetral de alto voltaje con sirena de aviso ante intentos de corte.</p>
+        </div></div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="fersit-card h-100"><div class="card-body">
+          <div class="service-icon"><i class="bi bi-tools"></i></div>
+          <h4>Mantenimiento</h4>
+          <p class="text-muted mb-0">Planes preventivos y correctivos para asegurar el correcto funcionamiento.</p>
+        </div></div>
+      </div>
+      <div class="col-md-6 col-lg-4">
+        <div class="fersit-card h-100"><div class="card-body">
+          <div class="service-icon"><i class="bi bi-headset"></i></div>
+          <h4>Soporte 24/7</h4>
+          <p class="text-muted mb-0">Equipo técnico disponible todos los días del año para emergencias.</p>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- POR QUÉ ELEGIR -->
+<section style="background:#fff;">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-5">
+        <h2 class="section-title">¿Por qué elegir FERSIT?</h2>
+        <p class="text-muted">Combinamos experiencia, tecnología de marca y un servicio cercano para entregar tranquilidad real a nuestros clientes.</p>
+      </div>
+      <div class="col-lg-7">
+        <div class="row g-3">
+          <div class="col-md-6"><div class="why-item"><div class="why-icon"><i class="bi bi-award-fill"></i></div><div><h6 class="mb-1">15+ años de experiencia</h6><small class="text-muted">Proyectos ejecutados con éxito en todo el país.</small></div></div></div>
+          <div class="col-md-6"><div class="why-item"><div class="why-icon"><i class="bi bi-cpu-fill"></i></div><div><h6 class="mb-1">Tecnología de marca</h6><small class="text-muted">Equipos Hikvision, Dahua, DSC y más.</small></div></div></div>
+          <div class="col-md-6"><div class="why-item"><div class="why-icon"><i class="bi bi-people-fill"></i></div><div><h6 class="mb-1">Personal certificado</h6><small class="text-muted">Técnicos capacitados y carnetizados.</small></div></div></div>
+          <div class="col-md-6"><div class="why-item"><div class="why-icon"><i class="bi bi-shield-check"></i></div><div><h6 class="mb-1">Garantía total</h6><small class="text-muted">En equipos e instalación.</small></div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EMPRESAS ATENDIDAS -->
+<section>
+  <div class="container">
+    <div class="text-center mb-5">
+      <h2 class="section-title">Empresas que confían en nosotros</h2>
+      <p class="section-subtitle">Más de 500 clientes satisfechos</p>
+    </div>
+    <div class="row g-4 text-center align-items-center">
+      <div class="col-6 col-md-3"><div class="p-4 fersit-card"><i class="bi bi-building" style="font-size:2.5rem;color:var(--fersit-navy);"></i><div class="mt-2 fw-semibold text-muted small">CORPORACIÓN ANDINA</div></div></div>
+      <div class="col-6 col-md-3"><div class="p-4 fersit-card"><i class="bi bi-bank" style="font-size:2.5rem;color:var(--fersit-navy);"></i><div class="mt-2 fw-semibold text-muted small">BANCO PICHINCHA</div></div></div>
+      <div class="col-6 col-md-3"><div class="p-4 fersit-card"><i class="bi bi-hospital" style="font-size:2.5rem;color:var(--fersit-navy);"></i><div class="mt-2 fw-semibold text-muted small">HOSPITAL METRO</div></div></div>
+      <div class="col-6 col-md-3"><div class="p-4 fersit-card"><i class="bi bi-shop" style="font-size:2.5rem;color:var(--fersit-navy);"></i><div class="mt-2 fw-semibold text-muted small">SUPERMAXI</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="background:var(--fersit-light);">
+  <div class="container">
+    <div class="cta-band text-center">
+      <h2 class="mb-3">¿Listo para proteger lo que más te importa?</h2>
+      <p class="lead mb-4" style="color:rgba(255,255,255,.85);">Solicita una cotización gratuita y sin compromiso.</p>
+      <a href="cotizar.html" class="btn btn-light btn-lg fw-semibold me-2"><i class="bi bi-file-earmark-text"></i> Solicitar Cotización</a>
+      <a href="contacto.html" class="btn btn-outline-light btn-lg"><i class="bi bi-chat-dots"></i> Hablar con un asesor</a>
+    </div>
+  </div>
+</section>
+
+<!-- {% include 'includes/footer.html' %} -->
+<footer class="fersit-footer">
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-4">
+        <h5><i class="bi bi-shield-shaded"></i> FERSIT ALARMAS</h5>
+        <p class="small">Soluciones integrales de seguridad electrónica para hogares y empresas en todo Ecuador.</p>
+      </div>
+      <div class="col-6 col-md-2">
+        <h5>Empresa</h5>
+        <a href="nosotros.html">Nosotros</a>
+        <a href="servicios.html">Servicios</a>
+        <a href="contacto.html">Contacto</a>
+      </div>
+      <div class="col-6 col-md-3">
+        <h5>Servicios</h5>
+        <a href="#">Alarmas</a>
+        <a href="#">CCTV</a>
+        <a href="#">Control de Accesos</a>
+        <a href="#">Mantenimiento</a>
+      </div>
+      <div class="col-md-3">
+        <h5>Contacto</h5>
+        <a href="#"><i class="bi bi-geo-alt"></i> Quito, Ecuador</a>
+        <a href="#"><i class="bi bi-telephone"></i> +593 99 999 9999</a>
+        <a href="#"><i class="bi bi-envelope"></i> info@fersit.com</a>
+      </div>
+    </div>
+    <div class="footer-bottom d-flex flex-wrap justify-content-between gap-2">
+      <span>&copy; 2026 FERSIT Alarmas. Todos los derechos reservados.</span>
+      <span><a href="#" class="me-3">Privacidad</a><a href="#">Términos</a></span>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

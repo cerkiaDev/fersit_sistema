@@ -1,0 +1,41 @@
+﻿{% extends 'base.html' %}
+{% block title %}Contacto - FERSIT Alarmas{% endblock %}
+{% block content %}
+<section class="hero" style="padding:4rem 0;">
+  <div class="container">
+    <span class="hero-badge"><i class="bi bi-chat-dots-fill"></i> Estamos disponibles</span>
+    <h1>Contáctanos</h1>
+    <p class="lead mt-2">Te asesoramos sin compromiso. Respondemos en menos de 24 horas.</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-lg-5">
+        <div class="fersit-card p-4 mb-3"><div class="d-flex gap-3"><div class="service-icon mb-0"><i class="bi bi-geo-alt-fill"></i></div><div><h6 class="mb-1">Dirección</h6><div class="text-muted">Av. 10 de Agosto N32-45 y Mariana de Jesús, Quito - Ecuador</div></div></div></div>
+        <div class="fersit-card p-4 mb-3"><div class="d-flex gap-3"><div class="service-icon mb-0"><i class="bi bi-telephone-fill"></i></div><div><h6 class="mb-1">Teléfonos</h6><div class="text-muted">+593 99 999 9999<br>+593 2 222 2222</div></div></div></div>
+        <div class="fersit-card p-4 mb-3"><div class="d-flex gap-3"><div class="service-icon mb-0"><i class="bi bi-envelope-fill"></i></div><div><h6 class="mb-1">Email</h6><div class="text-muted">info@fersit.com<br>ventas@fersit.com</div></div></div></div>
+        <div class="fersit-card p-4"><div class="d-flex gap-3"><div class="service-icon mb-0"><i class="bi bi-clock-fill"></i></div><div><h6 class="mb-1">Horario</h6><div class="text-muted">Lun - Vie: 8h00 - 18h00<br>Sáb: 9h00 - 13h00</div></div></div></div>
+      </div>
+      <div class="col-lg-7">
+        <div class="form-card">
+          <h4 class="mb-1">Envíanos un mensaje</h4>
+          <p class="text-muted mb-4">Completa el formulario y un asesor se pondrá en contacto contigo.</p>
+          <form>
+            <div class="row g-3">
+              <div class="col-md-6"><label class="form-label">Nombre completo</label><input class="form-control" placeholder="Juan Pérez"></div>
+              <div class="col-md-6"><label class="form-label">Teléfono</label><input class="form-control" placeholder="+593 99 999 9999"></div>
+              <div class="col-md-12"><label class="form-label">Correo electrónico</label><input type="email" class="form-control" placeholder="correo@ejemplo.com"></div>
+              <div class="col-md-12"><label class="form-label">Asunto</label><input class="form-control" placeholder="Consulta sobre alarmas"></div>
+              <div class="col-md-12"><label class="form-label">Mensaje</label><textarea class="form-control" rows="5" placeholder="Cuéntanos en qué podemos ayudarte..."></textarea></div>
+              <div class="col-12 d-flex gap-2"><button type="submit" class="btn btn-fersit"><i class="bi bi-send"></i> Enviar mensaje</button><button type="reset" class="btn btn-fersit-outline">Limpiar</button></div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+

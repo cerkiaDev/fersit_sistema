@@ -1,0 +1,25 @@
+﻿{% extends 'base.html' %}
+{% block title %}Servicios - FERSIT Alarmas{% endblock %}
+{% block content %}
+<section class="hero" style="padding:4rem 0;">
+  <div class="container">
+    <span class="hero-badge"><i class="bi bi-grid-3x3-gap-fill"></i> Nuestros servicios</span>
+    <h1>Soluciones a tu medida</h1>
+    <p class="lead mt-2">Tecnología profesional para proteger personas, bienes y activos.</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="row g-4">
+      <div class="col-md-6 col-lg-4"><div class="fersit-card h-100"><div class="card-body"><div class="service-icon"><i class="bi bi-bell-fill"></i></div><h4>Alarmas residenciales</h4><p class="text-muted">Paneles inalámbricos, sensores de movimiento, contactos magnéticos y sirenas.</p><a href="{% url 'cotizar' %}" class="fw-semibold">Solicitar cotización <i class="bi bi-arrow-right"></i></a></div></div></div>
+      <div class="col-md-6 col-lg-4"><div class="fersit-card h-100"><div class="card-body"><div class="service-icon"><i class="bi bi-camera-video-fill"></i></div><h4>Cámaras CCTV</h4><p class="text-muted">Sistemas analógicos e IP, grabación local y en la nube, acceso remoto.</p><a href="{% url 'cotizar' %}" class="fw-semibold">Solicitar cotización <i class="bi bi-arrow-right"></i></a></div></div></div>
+      <div class="col-md-6 col-lg-4"><div class="fersit-card h-100"><div class="card-body"><div class="service-icon"><i class="bi bi-key-fill"></i></div><h4>Control de accesos</h4><p class="text-muted">Cerraduras electrónicas, biométricos, tarjetas RFID y software de gestión.</p><a href="{% url 'cotizar' %}" class="fw-semibold">Solicitar cotización <i class="bi bi-arrow-right"></i></a></div></div></div>
+      <div class="col-md-6 col-lg-4"><div class="fersit-card h-100"><div class="card-body"><div class="service-icon"><i class="bi bi-broadcast"></i></div><h4>Cerco eléctrico</h4><p class="text-muted">Protección perimetral activa con energizadores de marca y monitoreo.</p><a href="{% url 'cotizar' %}" class="fw-semibold">Solicitar cotización <i class="bi bi-arrow-right"></i></a></div></div></div>
+      <div class="col-md-6 col-lg-4"><div class="fersit-card h-100"><div class="card-body"><div class="service-icon"><i class="bi bi-fire"></i></div><h4>Detección de incendios</h4><p class="text-muted">Detectores de humo, paneles direccionables y sirenas estroboscópicas.</p><a href="{% url 'cotizar' %}" class="fw-semibold">Solicitar cotización <i class="bi bi-arrow-right"></i></a></div></div></div>
+      <div class="col-md-6 col-lg-4"><div class="fersit-card h-100"><div class="card-body"><div class="service-icon"><i class="bi bi-tools"></i></div><h4>Mantenimiento</h4><p class="text-muted">Planes mensuales, trimestrales y anuales con visitas técnicas programadas.</p><a href="{% url 'cotizar' %}" class="fw-semibold">Solicitar cotización <i class="bi bi-arrow-right"></i></a></div></div></div>
+    </div>
+  </div>
+</section>
+{% endblock %}
+

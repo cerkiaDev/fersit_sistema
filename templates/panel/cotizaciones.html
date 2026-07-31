@@ -1,0 +1,38 @@
+﻿{% extends 'base_admin.html' %}
+{% block title %}Cotizaciones - FERSIT Admin{% endblock %}
+{% block topbar_title %}Cotizaciones{% endblock %}
+{% block topbar_subtitle %}Gestión de cotizaciones{% endblock %}
+{% block content %}
+<div class="page-header">
+      <div><h1>Cotizaciones</h1><div class="breadcrumb-mini">Inicio / Cotizaciones</div></div>
+      <a href="{% url 'admin_cotizacion_editor' %}" class="btn btn-fersit"><i class="bi bi-plus-lg"></i> Nueva Cotización</a>
+    </div>
+    <div class="fersit-table-card">
+      <div class="table-toolbar">
+        <form class="input-group" style="max-width:340px;" method="get"><span class="input-group-text bg-white"><i class="bi bi-search"></i></span><input name="q" class="form-control" placeholder="Buscar por #, cliente..." value="{{ query }}"></form>
+        <div class="d-flex gap-2">
+          <form method="get">
+            <select name="estado" class="form-select form-select-sm" onchange="this.form.submit()">
+              <option value="">Todos los estados</option>
+              {% for value,label in estados %}
+                <option value="{{ value }}" {% if estado == value %}selected{% endif %}>{{ label }}</option>
+              {% endfor %}
+            </select>
+          </form>
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table class="table fersit-table align-middle">
+          <thead><tr><th>#</th><th>Cliente</th><th>Título</th><th>Total</th><th>Estado</th><th>Fecha</th><th class="text-end">Acciones</th></tr></thead>
+          <tbody>
+            {% for cotizacion in cotizaciones %}
+              <tr><td class="fw-semibold">{{ cotizacion.numero_cotizacion }}</td><td>{{ cotizacion.cliente.nombre }}</td><td>{{ cotizacion.titulo_servicio }}</td><td class="fw-semibold">${{ cotizacion.total }}</td><td><span class="badge-status {% if cotizacion.estado == 'aprobada' %}badge-approved{% elif cotizacion.estado == 'rechazada' %}badge-rejected{% else %}badge-pending{% endif %}">{{ cotizacion.get_estado_display }}</span></td><td>{{ cotizacion.fecha|date:"d/m/Y" }}</td><td class="text-end"><a href="{% url 'admin_cotizacion_pdf' cotizacion.pk %}" class="btn btn-sm btn-sm-icon btn-outline-secondary" title="Generar PDF"><i class="bi bi-file-earmark-pdf"></i></a> <a href="{% url 'admin_cotizacion_editar' cotizacion.pk %}" class="btn btn-sm btn-sm-icon btn-outline-secondary" title="Editar"><i class="bi bi-pencil"></i></a></td></tr>
+            {% empty %}
+              <tr><td colspan="7" class="text-center text-muted py-4">Sin cotizaciones registradas.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+{% endblock %}
+

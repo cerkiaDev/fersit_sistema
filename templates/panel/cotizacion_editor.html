@@ -1,0 +1,142 @@
+﻿{% extends 'base_admin.html' %}
+{% block title %}Editor de Cotización - FERSIT Admin{% endblock %}
+{% block topbar_title %}{% if cotizacion %}Editar Cotización{% else %}Nueva Cotización{% endif %}{% endblock %}
+{% block topbar_subtitle %}Editor ERP{% endblock %}
+{% block content %}
+<form method="post">
+  {% csrf_token %}
+  <div class="page-header">
+      <div><h1>Editor de Cotización</h1><div class="breadcrumb-mini">Cotizaciones / {% if cotizacion %}{{ cotizacion.numero_cotizacion }}{% else %}Nueva{% endif %}</div></div>
+      <div class="d-flex flex-wrap gap-2">
+        <a href="{% url 'admin_cotizaciones' %}" class="btn btn-fersit-outline"><i class="bi bi-x-lg"></i> Cancelar</a>
+        {% if cotizacion %}
+          <a href="{% url 'admin_cotizacion_pdf' cotizacion.pk %}" class="btn btn-outline-secondary"><i class="bi bi-file-earmark-pdf"></i> Generar PDF</a>
+        {% else %}
+          <button type="button" class="btn btn-outline-secondary" disabled title="Guarde la cotizacion antes de generar el PDF"><i class="bi bi-file-earmark-pdf"></i> Generar PDF</button>
+        {% endif %}
+        <button class="btn btn-fersit"><i class="bi bi-check2"></i> Guardar</button>
+      </div>
+    </div>
+
+    <!-- Encabezado -->
+    <div class="form-card mb-3">
+      <div class="row g-3">
+        <div class="col-md-6">
+          <label class="form-label">Cliente *</label>
+          <select name="cliente" class="form-select" required>
+            <option value="">-- Seleccionar cliente --</option>
+            {% for cliente in clientes %}
+              <option value="{{ cliente.pk }}" {% if form.cliente.value|stringformat:"s" == cliente.pk|stringformat:"s" %}selected{% endif %}>{{ cliente.nombre }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Título del servicio *</label>
+          <input name="titulo_servicio" class="form-control" value="{{ form.titulo_servicio.value|default:'' }}" required>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label">Estado</label>
+          <select name="estado" class="form-select">
+            {% for value,label in estados %}
+              <option value="{{ value }}" {% if form.estado.value == value %}selected{% endif %}>{{ label }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="col-12">
+          <label class="form-label">Nota / Observaciones</label>
+          <textarea name="nota" class="form-control" rows="2" placeholder="Notas adicionales para el cliente...">{{ form.nota.value|default:'' }}</textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabla de líneas -->
+    <div class="fersit-table-card mb-3">
+      <div class="table-toolbar">
+        <h6 class="mb-0"><i class="bi bi-list-ul"></i> Detalle</h6>
+        <button type="button" class="btn btn-fersit btn-sm" id="addQuoteLine"><i class="bi bi-plus-lg"></i> Agregar línea</button>
+      </div>
+      <select id="productOptionsTemplate" hidden>
+        <option value="">-- Concepto libre --</option>
+        {% for producto in productos %}
+          <option value="{{ producto.pk }}" data-price="{{ producto.precio_base }}" data-image="{% if producto.imagen %}{{ producto.imagen.url }}{% endif %}">{{ producto.nombre }}</option>
+        {% endfor %}
+      </select>
+      <div class="table-responsive">
+        <table class="table fersit-table quote-line-table align-middle mb-0">
+          <thead>
+            <tr>
+              <th style="width:40px;">#</th>
+              <th style="min-width:240px;">Producto / Concepto</th>
+              <th style="min-width:120px;">Tipo de medida</th>
+              <th style="width:110px;">Unidad / Metro</th>
+              <th style="width:90px;">Cantidad</th>
+              <th style="width:120px;">P. Unitario</th>
+              <th style="width:120px;" class="text-end">Subtotal</th>
+              <th style="width:60px;"></th>
+            </tr>
+          </thead>
+          <tbody id="quoteLinesBody">
+            {% for detalle in detalles %}
+              <tr>
+                <td class="text-muted">{{ forloop.counter }}</td>
+                <td>
+                  <div class="quote-product-cell">
+                    <div class="quote-product-thumb {% if not detalle.producto.imagen %}is-empty{% endif %}">
+                      {% if detalle.producto.imagen %}
+                        <img src="{{ detalle.producto.imagen.url }}" alt="{{ detalle.producto.nombre }}">
+                      {% else %}
+                        <i class="bi bi-image"></i>
+                      {% endif %}
+                    </div>
+                    <div class="quote-product-fields">
+                      <select name="producto" class="form-select form-select-sm line-product">
+                        <option value="">-- Concepto libre --</option>
+                        {% for producto in productos %}
+                          <option value="{{ producto.pk }}" data-price="{{ producto.precio_base }}" data-image="{% if producto.imagen %}{{ producto.imagen.url }}{% endif %}" {% if detalle.producto_id == producto.pk %}selected{% endif %}>{{ producto.nombre }}</option>
+                        {% endfor %}
+                      </select>
+                      <input name="concepto" type="text" class="form-control form-control-sm mt-1 line-concept" placeholder="Ej: Instalacion, mano de obra..." value="{{ detalle.concepto }}">
+                    </div>
+                  </div>
+                </td>
+                <td>
+                  <select name="tipo_medida" class="form-select form-select-sm line-measure">
+                    <option value="unidad" {% if detalle.tipo_medida == 'unidad' %}selected{% endif %}>Unidad</option>
+                    <option value="metro" {% if detalle.tipo_medida == 'metro' %}selected{% endif %}>Metro</option>
+                  </select>
+                </td>
+                <td class="text-muted small">{{ detalle.get_tipo_medida_display }}</td>
+                <td><input name="cantidad" type="number" step="1" class="form-control form-control-sm line-qty" value="{{ detalle.cantidad }}" min="1"></td>
+                <td><input name="precio_unitario" type="number" step="0.01" class="form-control form-control-sm line-price" value="{{ detalle.precio_unitario }}" min="0"></td>
+                <td class="text-end fw-semibold line-subtotal">${{ detalle.subtotal }}</td>
+                <td class="text-center"><button type="button" class="btn-remove-row" title="Eliminar"><i class="bi bi-trash"></i></button></td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Totales -->
+    <div class="row g-3">
+      <div class="col-lg-7"></div>
+      <div class="col-lg-5">
+        <div class="quote-totals">
+          <div class="row-total"><span class="text-muted">Subtotal</span><span id="totSubtotal" class="fw-semibold">${{ cotizacion.subtotal|default:"0.00" }}</span></div>
+          <div class="row-total"><span class="text-muted">IVA (15%)</span><span id="totIva" class="fw-semibold">${{ cotizacion.iva|default:"0.00" }}</span></div>
+          <div class="row-total grand"><span>TOTAL</span><span id="totGrand">${{ cotizacion.total|default:"0.00" }}</span></div>
+        </div>
+        <div class="d-flex flex-wrap gap-2 mt-3 justify-content-end">
+          <a href="{% url 'admin_cotizaciones' %}" class="btn btn-fersit-outline"><i class="bi bi-x-lg"></i> Cancelar</a>
+          {% if cotizacion %}
+            <a href="{% url 'admin_cotizacion_pdf' cotizacion.pk %}" class="btn btn-outline-secondary"><i class="bi bi-file-earmark-pdf"></i> PDF</a>
+          {% else %}
+            <button type="button" class="btn btn-outline-secondary" disabled title="Guarde la cotizacion antes de generar el PDF"><i class="bi bi-file-earmark-pdf"></i> PDF</button>
+          {% endif %}
+          <button class="btn btn-fersit"><i class="bi bi-check2"></i> Guardar</button>
+        </div>
+      </div>
+    </div>
+</form>
+{% endblock %}
+

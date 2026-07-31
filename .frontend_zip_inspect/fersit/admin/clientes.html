@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"><title>Clientes - FERSIT Admin</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="../css/styles.css" rel="stylesheet">
+</head>
+<body class="admin-body">
+<aside class="admin-sidebar">
+  <div class="brand"><i class="bi bi-shield-shaded"></i> FERSIT</div>
+  <div class="sidebar-label">Principal</div>
+  <a class="nav-link" href="dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a>
+  <div class="sidebar-label">Gestión</div>
+  <a class="nav-link active" href="clientes.html"><i class="bi bi-people-fill"></i> Clientes</a>
+  <a class="nav-link" href="productos.html"><i class="bi bi-box-seam-fill"></i> Productos</a>
+  <a class="nav-link" href="cotizaciones.html"><i class="bi bi-file-earmark-text-fill"></i> Cotizaciones</a>
+  <a class="nav-link" href="solicitudes.html"><i class="bi bi-inbox-fill"></i> Solicitudes</a>
+  <div class="sidebar-label">Sesión</div>
+  <a class="nav-link" href="../login.html"><i class="bi bi-box-arrow-right"></i> Cerrar Sesión</a>
+</aside>
+<div class="sidebar-backdrop"></div>
+
+<main class="admin-main">
+  <div class="admin-topbar">
+    <div class="d-flex align-items-center gap-2"><button class="sidebar-toggle"><i class="bi bi-list"></i></button><div><h6 class="mb-0">Clientes</h6><small class="text-muted">Gestión de clientes</small></div></div>
+    <div class="user-chip"><div class="avatar">A</div><span class="d-none d-sm-inline">Administrador</span></div>
+  </div>
+  <div class="admin-content">
+    <div class="page-header">
+      <div><h1>Clientes</h1><div class="breadcrumb-mini">Inicio / Clientes</div></div>
+      <button class="btn btn-fersit" data-bs-toggle="modal" data-bs-target="#clienteModal"><i class="bi bi-plus-lg"></i> Nuevo Cliente</button>
+    </div>
+
+    <div class="fersit-table-card">
+      <div class="table-toolbar">
+        <div class="input-group" style="max-width:340px;"><span class="input-group-text bg-white"><i class="bi bi-search"></i></span><input class="form-control" placeholder="Buscar por nombre, teléfono..."></div>
+        <div class="d-flex gap-2"><select class="form-select form-select-sm"><option>Todos</option><option>Activos</option><option>Inactivos</option></select></div>
+      </div>
+      <div class="table-responsive">
+        <table class="table fersit-table align-middle">
+          <thead><tr><th>#</th><th>Nombre</th><th>Teléfono</th><th>Dirección</th><th>Cédula/RUC</th><th>Estado</th><th class="text-end">Acciones</th></tr></thead>
+          <tbody>
+            <tr><td>001</td><td class="fw-semibold">Juan Pérez Andrade</td><td>+593 99 123 4567</td><td>Av. Amazonas N32-100, Quito</td><td>1712345678</td><td><span class="badge-status badge-active">Activo</span></td>
+              <td class="text-end"><button class="btn btn-sm btn-sm-icon btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#clienteModal"><i class="bi bi-pencil"></i></button> <button class="btn btn-sm btn-sm-icon btn-outline-danger"><i class="bi bi-trash"></i></button></td></tr>
+            <tr><td>002</td><td class="fw-semibold">María López</td><td>+593 98 555 1212</td><td>Calle Foch E5-22, Quito</td><td>1798765432</td><td><span class="badge-status badge-active">Activo</span></td>
+              <td class="text-end"><button class="btn btn-sm btn-sm-icon btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#clienteModal"><i class="bi bi-pencil"></i></button> <button class="btn btn-sm btn-sm-icon btn-outline-danger"><i class="bi bi-trash"></i></button></td></tr>
+            <tr><td>003</td><td class="fw-semibold">Constructora Andina S.A.</td><td>+593 2 222 0099</td><td>Av. República E7-89</td><td>1790012345001</td><td><span class="badge-status badge-active">Activo</span></td>
+              <td class="text-end"><button class="btn btn-sm btn-sm-icon btn-outline-secondary"><i class="bi bi-pencil"></i></button> <button class="btn btn-sm btn-sm-icon btn-outline-danger"><i class="bi bi-trash"></i></button></td></tr>
+            <tr><td>004</td><td class="fw-semibold">Carlos Mora</td><td>+593 96 777 8888</td><td>Cumbayá, Vía Tanda</td><td>—</td><td><span class="badge-status badge-inactive">Inactivo</span></td>
+              <td class="text-end"><button class="btn btn-sm btn-sm-icon btn-outline-secondary"><i class="bi bi-pencil"></i></button> <button class="btn btn-sm btn-sm-icon btn-outline-danger"><i class="bi bi-trash"></i></button></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="d-flex justify-content-between align-items-center px-3 py-3 border-top">
+        <small class="text-muted">Mostrando 4 de 186 clientes</small>
+        <nav><ul class="pagination pagination-sm mb-0"><li class="page-item disabled"><a class="page-link">«</a></li><li class="page-item active"><a class="page-link">1</a></li><li class="page-item"><a class="page-link">2</a></li><li class="page-item"><a class="page-link">3</a></li><li class="page-item"><a class="page-link">»</a></li></ul></nav>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Modal Cliente -->
+<div class="modal fade" id="clienteModal" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content" style="border-radius:16px;border:0;">
+      <div class="modal-header"><h5 class="modal-title">Nuevo Cliente</h5><button class="btn-close" data-bs-dismiss="modal"></button></div>
+      <div class="modal-body">
+        <form><div class="row g-3">
+          <div class="col-md-6"><label class="form-label">Nombre completo *</label><input class="form-control" required></div>
+          <div class="col-md-6"><label class="form-label">Teléfono *</label><input class="form-control" required></div>
+          <div class="col-md-12"><label class="form-label">Dirección</label><input class="form-control"></div>
+          <div class="col-md-6"><label class="form-label">Cédula / RUC <span class="text-muted">(opcional)</span></label><input class="form-control"></div>
+          <div class="col-md-6"><label class="form-label">Estado</label><select class="form-select"><option>Activo</option><option>Inactivo</option></select></div>
+        </div></form>
+      </div>
+      <div class="modal-footer"><button class="btn btn-fersit-outline" data-bs-dismiss="modal">Cancelar</button><button class="btn btn-fersit"><i class="bi bi-check2"></i> Guardar</button></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../js/app.js"></script>
+</body></html>
