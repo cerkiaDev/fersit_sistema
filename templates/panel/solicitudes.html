@@ -20,12 +20,12 @@
       </div>
       <div class="table-responsive">
         <table class="table fersit-table align-middle">
-          <thead><tr><th>Nombre</th><th>Teléfono</th><th>Correo</th><th>Dirección</th><th>Servicio</th><th>Mensaje</th><th>Fecha</th><th>Estado</th></tr></thead>
+          <thead><tr><th>Nombre</th><th>Teléfono</th><th>Correo</th><th>Dirección</th><th>Servicio</th><th>Mensaje</th><th>Fecha</th><th>Estado</th><th>Acción</th></tr></thead>
           <tbody>
             {% for solicitud in solicitudes %}
-              <tr><td class="fw-semibold">{{ solicitud.nombre }}</td><td>{{ solicitud.telefono }}</td><td>{{ solicitud.correo|default:"" }}</td><td>{{ solicitud.direccion|default:"" }}</td><td>{{ solicitud.servicio_interes|default:"" }}</td><td class="text-muted small">{{ solicitud.mensaje|default:""|truncatechars:60 }}</td><td>{{ solicitud.fecha|date:"d/m/y" }}</td><td><span class="badge-status {% if solicitud.estado == 'atendida' %}badge-active{% elif solicitud.estado == 'rechazada' %}badge-rejected{% else %}badge-pending{% endif %}">{{ solicitud.get_estado_display }}</span></td></tr>
+              <tr><td class="fw-semibold">{{ solicitud.nombre }}</td><td>{{ solicitud.telefono }}</td><td>{{ solicitud.correo|default:"" }}</td><td>{{ solicitud.direccion|default:"" }}</td><td>{{ solicitud.servicio_interes|default:"" }}</td><td class="text-muted small">{{ solicitud.mensaje|default:""|truncatechars:60 }}</td><td>{{ solicitud.fecha|date:"d/m/y" }}</td><td><span class="badge-status {% if solicitud.estado == 'activo' or solicitud.estado == 'atendida' %}badge-active{% elif solicitud.estado == 'rechazada' %}badge-rejected{% else %}badge-pending{% endif %}">{{ solicitud.get_estado_display }}</span>{% if solicitud.cliente_id %}<div class="small text-muted mt-1">Cliente #{{ solicitud.cliente_id }}</div>{% endif %}</td><td><form method="post" class="d-flex gap-2 align-items-center">{% csrf_token %}<input type="hidden" name="solicitud_id" value="{{ solicitud.pk }}"><select name="estado" class="form-select form-select-sm">{% for value,label in estados %}<option value="{{ value }}" {% if solicitud.estado == value %}selected{% endif %}>{{ label }}</option>{% endfor %}</select><button class="btn btn-sm btn-fersit" title="Guardar estado"><i class="bi bi-check2"></i></button></form></td></tr>
             {% empty %}
-              <tr><td colspan="8" class="text-center text-muted py-4">Sin solicitudes registradas.</td></tr>
+              <tr><td colspan="9" class="text-center text-muted py-4">Sin solicitudes registradas.</td></tr>
             {% endfor %}
           </tbody>
         </table>

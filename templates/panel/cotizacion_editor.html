@@ -30,7 +30,7 @@
             {% endfor %}
           </select>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-2">
           <label class="form-label">Título del servicio *</label>
           <input name="titulo_servicio" class="form-control" value="{{ form.titulo_servicio.value|default:'' }}" required>
         </div>
@@ -41,6 +41,10 @@
               <option value="{{ value }}" {% if form.estado.value == value %}selected{% endif %}>{{ label }}</option>
             {% endfor %}
           </select>
+        </div>
+        <div class="col-md-2">
+          <label class="form-label" for="ivaRate">IVA (%)</label>
+          <input id="ivaRate" name="porcentaje_iva" type="number" step="0.01" min="0" max="100" class="form-control" value="{{ form.porcentaje_iva.value|default:'15.00' }}" required>
         </div>
         <div class="col-12">
           <label class="form-label">Nota / Observaciones</label>
@@ -123,7 +127,7 @@
       <div class="col-lg-5">
         <div class="quote-totals">
           <div class="row-total"><span class="text-muted">Subtotal</span><span id="totSubtotal" class="fw-semibold">${{ cotizacion.subtotal|default:"0.00" }}</span></div>
-          <div class="row-total"><span class="text-muted">IVA (15%)</span><span id="totIva" class="fw-semibold">${{ cotizacion.iva|default:"0.00" }}</span></div>
+          <div class="row-total"><span class="text-muted" id="ivaLabel">IVA ({{ form.porcentaje_iva.value|default:"15.00" }}%)</span><span id="totIva" class="fw-semibold">${{ cotizacion.iva|default:"0.00" }}</span></div>
           <div class="row-total grand"><span>TOTAL</span><span id="totGrand">${{ cotizacion.total|default:"0.00" }}</span></div>
         </div>
         <div class="d-flex flex-wrap gap-2 mt-3 justify-content-end">

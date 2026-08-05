@@ -7,6 +7,7 @@ from django.db import models
 class Cliente(models.Model):
     nombre = models.CharField(max_length=150)
     telefono = models.CharField(max_length=20, blank=True, null=True)
+    correo = models.EmailField(blank=True, null=True)
     direccion = models.CharField(max_length=200, blank=True, null=True)
     cedula_ruc = models.CharField(max_length=20, blank=True, null=True)
 
@@ -26,8 +27,6 @@ class Producto(models.Model):
 
 
 class Cotizacion(models.Model):
-    IVA_RATE = Decimal("0.15")
-
     ESTADOS = [
         ('pendiente', 'Pendiente'),
         ('aprobada', 'Aprobada'),
@@ -45,6 +44,12 @@ class Cotizacion(models.Model):
     fecha = models.DateField(auto_now_add=True)
     titulo_servicio = models.CharField(max_length=150, default='Cotización')
     subtotal = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    porcentaje_iva = models.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        default=Decimal("15.00"),
+        help_text='Porcentaje de IVA aplicado a esta cotización.',
+    )
     iva = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     total = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     estado = models.CharField(max_length=20, choices=ESTADOS, default='pendiente')
@@ -76,7 +81,7 @@ class Cotizacion(models.Model):
             ),
             Decimal("0.00"),
         ).quantize(Decimal("0.01"), rounding=ROUND_HALF_UP)
-        iva = (subtotal * self.IVA_RATE).quantize(
+        iva = (subtotal * (self.porcentaje_iva / Decimal("100"))).quantize(
             Decimal("0.01"),
             rounding=ROUND_HALF_UP,
         )
@@ -156,8 +161,8 @@ class DetalleCotizacion(models.Model):
 
 class SolicitudCotizacion(models.Model):
     ESTADOS = [
-        
         ('pendiente', 'Pendiente'),
+        ('activo', 'Activo'),
         ('atendida', 'Atendida'),
         ('rechazada', 'Rechazada'),
     ]
@@ -170,6 +175,14 @@ class SolicitudCotizacion(models.Model):
     mensaje = models.TextField(blank=True, null=True)
     fecha = models.DateTimeField(auto_now_add=True)
     estado = models.CharField(max_length=20, choices=ESTADOS, default='pendiente')
+    cliente = models.OneToOneField(
+        Cliente,
+        on_delete=models.SET_NULL,
+        blank=True,
+        null=True,
+        related_name='solicitud_origen',
+        editable=False,
+    )
 
     def __str__(self):
         return f'Solicitud de {self.nombre}'

@@ -1,0 +1,20 @@
+{% extends 'base_admin.html' %}
+{% block title %}Editar Producto - FERSIT Admin{% endblock %}
+{% block topbar_title %}Editar Producto{% endblock %}
+{% block topbar_subtitle %}Catálogo de productos{% endblock %}
+{% block content %}
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="page-header">
+    <div><h1>Editar producto</h1><div class="breadcrumb-mini">Productos / {{ producto.nombre }}</div></div>
+    <div class="d-flex gap-2"><a href="{% url 'admin_productos' %}" class="btn btn-fersit-outline">Cancelar</a><button class="btn btn-fersit"><i class="bi bi-check2"></i> Guardar cambios</button></div>
+  </div>
+  <div class="form-card" style="max-width:720px;">
+    <div class="mb-3"><label class="form-label" for="{{ form.nombre.id_for_label }}">Nombre *</label>{{ form.nombre }}</div>
+    <div class="mb-3"><label class="form-label" for="{{ form.descripcion.id_for_label }}">Descripción</label>{{ form.descripcion }}</div>
+    <div class="mb-3"><label class="form-label" for="{{ form.precio_base.id_for_label }}">Precio base *</label>{{ form.precio_base }}</div>
+    <div class="mb-3"><label class="form-label" for="{{ form.imagen.id_for_label }}">Imagen</label>{% if producto.imagen %}<div class="mb-2"><img src="{{ producto.imagen.url }}" class="product-thumb" alt="{{ producto.nombre }}"></div>{% endif %}{{ form.imagen }}</div>
+    <div class="form-check">{{ form.activo }}<label class="form-check-label" for="{{ form.activo.id_for_label }}">Activo</label></div>
+  </div>
+</form>
+{% endblock %}

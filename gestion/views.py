@@ -134,6 +134,35 @@ def admin_productos(request):
     )
 
 
+def admin_producto_editar(request, pk):
+    producto = get_object_or_404(Producto, pk=pk)
+    if request.method == 'POST':
+        form = ProductoForm(request.POST, request.FILES, instance=producto)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Producto actualizado correctamente.')
+            return redirect('admin_productos')
+        messages.error(request, 'Revise los datos del producto.')
+    else:
+        form = ProductoForm(instance=producto)
+
+    return render(
+        request,
+        'panel/producto_editor.html',
+        {'active': 'productos', 'producto': producto, 'form': form},
+    )
+
+
+def admin_producto_eliminar(request, pk):
+    producto = get_object_or_404(Producto, pk=pk)
+    if request.method != 'POST':
+        return redirect('admin_productos')
+
+    producto.delete()
+    messages.success(request, 'Producto eliminado correctamente.')
+    return redirect('admin_productos')
+
+
 def admin_cotizaciones(request):
     query = request.GET.get('q', '').strip()
     estado = request.GET.get('estado', '').strip()
@@ -211,6 +240,32 @@ def admin_cotizacion_pdf(request, pk):
 
 
 def admin_solicitudes(request):
+    if request.method == 'POST':
+        solicitud = get_object_or_404(SolicitudCotizacion, pk=request.POST.get('solicitud_id'))
+        nuevo_estado = request.POST.get('estado', '').strip()
+        estados_validos = dict(SolicitudCotizacion.ESTADOS)
+
+        if nuevo_estado not in estados_validos:
+            messages.error(request, 'Seleccione un estado válido.')
+        elif solicitud.estado == nuevo_estado:
+            messages.info(request, 'La solicitud ya tiene ese estado.')
+        else:
+            with transaction.atomic():
+                solicitud.estado = nuevo_estado
+                if nuevo_estado == 'activo' and not solicitud.cliente_id:
+                    solicitud.cliente = Cliente.objects.create(
+                        nombre=solicitud.nombre,
+                        telefono=solicitud.telefono,
+                        correo=solicitud.correo,
+                        direccion=solicitud.direccion,
+                    )
+                solicitud.save()
+            if nuevo_estado == 'activo':
+                messages.success(request, 'Solicitud activada y cliente creado correctamente.')
+            else:
+                messages.success(request, 'Estado de la solicitud actualizado correctamente.')
+        return redirect('admin_solicitudes')
+
     estado = request.GET.get('estado', '').strip()
     solicitudes = SolicitudCotizacion.objects.order_by('-fecha')
     if estado:
@@ -352,7 +407,7 @@ def _generar_pdf_cotizacion(cotizacion):
 
     detail_rows.extend([
         ["", "", Paragraph("SUBTOTAL", styles["TotalLabel"]), Paragraph(_money_parts(cotizacion.subtotal), styles["CellRight"])],
-        ["", "", Paragraph("15% IVA", styles["TotalLabel"]), Paragraph(_money_parts(cotizacion.iva), styles["CellRight"])],
+        ["", "", Paragraph(f"IVA {cotizacion.porcentaje_iva}%", styles["TotalLabel"]), Paragraph(_money_parts(cotizacion.iva), styles["CellRight"])],
         ["", "", Paragraph("TOTAL", styles["TotalLabel"]), Paragraph(_money_parts(cotizacion.total), styles["TotalValue"])],
     ])
 
@@ -609,7 +664,7 @@ def _generar_pdf_cotizacion_basico(cotizacion):
     text(390, 'Subtotal:', size=10, bold=True)
     text(490, _money(cotizacion.subtotal), size=10)
     y -= 18
-    text(390, 'IVA 15%:', size=10, bold=True)
+    text(390, f'IVA {cotizacion.porcentaje_iva}%:', size=10, bold=True)
     text(490, _money(cotizacion.iva), size=10)
     y -= 18
     text(390, 'Total:', size=12, bold=True)

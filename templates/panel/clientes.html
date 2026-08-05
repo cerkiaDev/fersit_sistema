@@ -14,12 +14,12 @@
       </div>
       <div class="table-responsive">
         <table class="table fersit-table align-middle">
-          <thead><tr><th>#</th><th>Nombre</th><th>Teléfono</th><th>Dirección</th><th>Cédula/RUC</th><th>Estado</th><th class="text-end">Acciones</th></tr></thead>
+          <thead><tr><th>#</th><th>Nombre</th><th>Teléfono</th><th>Correo</th><th>Dirección</th><th>Cédula/RUC</th><th>Estado</th><th class="text-end">Acciones</th></tr></thead>
           <tbody>
             {% for cliente in clientes %}
-              <tr><td>{{ cliente.pk|stringformat:"03d" }}</td><td class="fw-semibold">{{ cliente.nombre }}</td><td>{{ cliente.telefono|default:"" }}</td><td>{{ cliente.direccion|default:"" }}</td><td>{{ cliente.cedula_ruc|default:"" }}</td><td><span class="badge-status badge-active">Activo</span></td><td class="text-end"></td></tr>
+              <tr><td>{{ cliente.pk|stringformat:"03d" }}</td><td class="fw-semibold">{{ cliente.nombre }}</td><td>{{ cliente.telefono|default:"" }}</td><td>{{ cliente.correo|default:"" }}</td><td>{{ cliente.direccion|default:"" }}</td><td>{{ cliente.cedula_ruc|default:"" }}</td><td><span class="badge-status badge-active">Activo</span></td><td class="text-end"></td></tr>
             {% empty %}
-              <tr><td colspan="7" class="text-center text-muted py-4">Sin clientes registrados.</td></tr>
+              <tr><td colspan="8" class="text-center text-muted py-4">Sin clientes registrados.</td></tr>
             {% endfor %}
           </tbody>
         </table>
@@ -37,6 +37,7 @@
           <div class="modal-body">
             <div class="mb-3"><label class="form-label">Nombre *</label><input name="nombre" class="form-control" required></div>
             <div class="mb-3"><label class="form-label">Teléfono</label><input name="telefono" class="form-control"></div>
+            <div class="mb-3"><label class="form-label">Correo</label><input name="correo" type="email" class="form-control"></div>
             <div class="mb-3"><label class="form-label">Dirección</label><input name="direccion" class="form-control"></div>
             <div class="mb-3"><label class="form-label">Cédula/RUC</label><input name="cedula_ruc" class="form-control"></div>
           </div>

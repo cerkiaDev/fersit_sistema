@@ -60,6 +60,12 @@ a:hover { color: var(--fersit-navy); }
   color: var(--fersit-navy);
   background: var(--fersit-light);
 }
+.fersit-navbar .nav-actions {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  margin-left: .5rem;
+}
 
 /* ===== BOTONES ===== */
 .btn-fersit {
@@ -318,6 +324,21 @@ section { padding: 4.5rem 0; }
 
 /* ===== RESPONSIVE ===== */
 @media (max-width: 991.98px) {
+  .fersit-navbar .navbar-collapse { margin-top: .75rem; }
+  .fersit-navbar .navbar-nav { align-items: flex-start; }
+  .fersit-navbar .nav-actions { gap: .3rem; margin: .15rem 0 0; }
+  .fersit-navbar .btn-fersit,
+  .fersit-navbar .btn-fersit-outline {
+    display: inline-flex;
+    align-items: center;
+    gap: .35rem;
+    margin-top: 0;
+    padding: .3rem .55rem;
+    font-size: .75rem;
+    line-height: 1.25;
+    border-radius: 7px;
+  }
+  .fersit-navbar .btn-fersit-outline { border-width: 1px; border-color: rgba(11,60,93,.7); }
   .admin-sidebar { transform: translateX(-100%); }
   .admin-sidebar.show { transform: translateX(0); }
   .admin-main { margin-left: 0; }

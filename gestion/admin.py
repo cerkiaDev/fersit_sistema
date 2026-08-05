@@ -156,6 +156,7 @@ class CotizacionAdmin(admin.ModelAdmin):
         "fecha",
         "titulo_servicio",
         "subtotal",
+        "porcentaje_iva",
         "iva",
         "total",
         "estado",

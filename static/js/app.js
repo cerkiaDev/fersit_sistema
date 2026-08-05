@@ -22,10 +22,12 @@ document.addEventListener('DOMContentLoaded', () => {
 function initQuoteEditor() {
   const tbody = document.getElementById('quoteLinesBody');
   const addBtn = document.getElementById('addQuoteLine');
+  const ivaRate = document.getElementById('ivaRate');
 
   addBtn?.addEventListener('click', () => addQuoteLine());
   tbody?.addEventListener('input', recalcTotals);
   tbody?.addEventListener('change', recalcTotals);
+  ivaRate?.addEventListener('input', recalcTotals);
   tbody?.addEventListener('click', (event) => {
     const btn = event.target.closest('.btn-remove-row');
     if (!btn) return;
@@ -133,9 +135,11 @@ function recalcTotals() {
     subtotal += line;
   });
 
-  const iva = subtotal * 0.15;
+  const ivaRate = Math.max(0, Math.min(100, parseFloat(document.getElementById('ivaRate')?.value) || 0));
+  const iva = subtotal * (ivaRate / 100);
   const total = subtotal + iva;
   setText('totSubtotal', '$' + subtotal.toFixed(2));
+  setText('ivaLabel', 'IVA (' + ivaRate.toFixed(2).replace(/\.00$/, '') + '%)');
   setText('totIva', '$' + iva.toFixed(2));
   setText('totGrand', '$' + total.toFixed(2));
 }

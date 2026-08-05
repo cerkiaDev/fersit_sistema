@@ -3,7 +3,7 @@ from decimal import Decimal
 from django.test import TestCase
 
 from .admin import DetalleCotizacionForm
-from .models import Cliente, Cotizacion, DetalleCotizacion, Producto
+from .models import Cliente, Cotizacion, DetalleCotizacion, Producto, SolicitudCotizacion
 from .views import _detalle_row_heights
 
 
@@ -86,3 +86,47 @@ class DetalleCotizacionTests(TestCase):
             _detalle_row_heights(self.cotizacion, total_rows),
             [20, None, 20, 20, 20],
         )
+
+    def test_totales_usan_el_porcentaje_de_iva_de_la_cotizacion(self):
+        self.cotizacion.porcentaje_iva = Decimal("12.00")
+        self.cotizacion.save()
+        DetalleCotizacion.objects.create(
+            cotizacion=self.cotizacion,
+            producto=self.producto,
+            cantidad=Decimal("10"),
+        )
+        self.cotizacion.refresh_from_db()
+
+        self.assertEqual(self.cotizacion.subtotal, Decimal("8.00"))
+        self.assertEqual(self.cotizacion.iva, Decimal("0.96"))
+        self.assertEqual(self.cotizacion.total, Decimal("8.96"))
+
+
+class SolicitudCotizacionTests(TestCase):
+    def test_activar_solicitud_crea_un_cliente_con_los_datos_disponibles(self):
+        solicitud = SolicitudCotizacion.objects.create(
+            nombre="Ana Pérez",
+            telefono="0999999999",
+            correo="ana@example.com",
+            direccion="Quito",
+        )
+
+        response = self.client.post(
+            '/panel/solicitudes/',
+            {'solicitud_id': solicitud.pk, 'estado': 'activo'},
+        )
+
+        self.assertRedirects(response, '/panel/solicitudes/')
+        solicitud.refresh_from_db()
+        self.assertEqual(solicitud.estado, 'activo')
+        self.assertIsNotNone(solicitud.cliente)
+        self.assertEqual(solicitud.cliente.nombre, 'Ana Pérez')
+        self.assertEqual(solicitud.cliente.correo, 'ana@example.com')
+
+    def test_reactivar_solicitud_no_duplica_el_cliente(self):
+        solicitud = SolicitudCotizacion.objects.create(nombre="Ana Pérez", telefono="0999999999")
+        self.client.post('/panel/solicitudes/', {'solicitud_id': solicitud.pk, 'estado': 'activo'})
+        self.client.post('/panel/solicitudes/', {'solicitud_id': solicitud.pk, 'estado': 'pendiente'})
+        self.client.post('/panel/solicitudes/', {'solicitud_id': solicitud.pk, 'estado': 'activo'})
+
+        self.assertEqual(Cliente.objects.filter(nombre='Ana Pérez').count(), 1)
