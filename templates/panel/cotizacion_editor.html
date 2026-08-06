@@ -44,7 +44,7 @@
         </div>
         <div class="col-md-2">
           <label class="form-label" for="ivaRate">IVA (%)</label>
-          <input id="ivaRate" name="porcentaje_iva" type="number" step="0.01" min="0" max="100" class="form-control" value="{{ form.porcentaje_iva.value|default:'15.00' }}" required>
+          <input id="ivaRate" name="porcentaje_iva" type="number" step="0.01" min="0" max="100" class="form-control" value="{{ form.porcentaje_iva.value|default:'15.00' }}" oninput="recalcTotals()" onchange="recalcTotals()" required>
         </div>
         <div class="col-12">
           <label class="form-label">Nota / Observaciones</label>
