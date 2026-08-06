@@ -259,17 +259,19 @@ def admin_solicitudes(request):
             messages.info(request, 'La solicitud ya tiene ese estado.')
         else:
             with transaction.atomic():
-                solicitud.estado = nuevo_estado
-                if nuevo_estado == 'activo' and not solicitud.cliente_id:
-                    solicitud.cliente = Cliente.objects.create(
+                if nuevo_estado == 'activo':
+                    Cliente.objects.create(
                         nombre=solicitud.nombre,
                         telefono=solicitud.telefono,
                         correo=solicitud.correo,
                         direccion=solicitud.direccion,
                     )
-                solicitud.save()
+                    solicitud.delete()
+                else:
+                    solicitud.estado = nuevo_estado
+                    solicitud.save()
             if nuevo_estado == 'activo':
-                messages.success(request, 'Solicitud activada y cliente creado correctamente.')
+                messages.success(request, 'Cliente creado correctamente. La solicitud fue retirada de la lista.')
             else:
                 messages.success(request, 'Estado de la solicitud actualizado correctamente.')
         return redirect('admin_solicitudes')

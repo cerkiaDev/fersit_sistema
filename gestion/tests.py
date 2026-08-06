@@ -118,17 +118,16 @@ class SolicitudCotizacionTests(TestCase):
         )
 
         self.assertRedirects(response, '/panel/solicitudes/')
-        solicitud.refresh_from_db()
-        self.assertEqual(solicitud.estado, 'activo')
-        self.assertIsNotNone(solicitud.cliente)
+        self.assertFalse(SolicitudCotizacion.objects.filter(pk=solicitud.pk).exists())
+        cliente = Cliente.objects.get(nombre=solicitud.nombre)
+        solicitud.cliente = cliente
         self.assertEqual(solicitud.cliente.nombre, 'Ana Pérez')
         self.assertEqual(solicitud.cliente.correo, 'ana@example.com')
 
-    def test_reactivar_solicitud_no_duplica_el_cliente(self):
+    def test_activar_solicitud_retira_el_registro_del_listado(self):
         solicitud = SolicitudCotizacion.objects.create(nombre="Ana Pérez", telefono="0999999999")
         self.client.post('/panel/solicitudes/', {'solicitud_id': solicitud.pk, 'estado': 'activo'})
-        self.client.post('/panel/solicitudes/', {'solicitud_id': solicitud.pk, 'estado': 'pendiente'})
-        self.client.post('/panel/solicitudes/', {'solicitud_id': solicitud.pk, 'estado': 'activo'})
+        self.assertFalse(SolicitudCotizacion.objects.filter(pk=solicitud.pk).exists())
 
         self.assertEqual(Cliente.objects.filter(nombre='Ana Pérez').count(), 1)
 

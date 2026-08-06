@@ -141,7 +141,7 @@ function recalcTotals() {
   const iva = subtotal * (ivaRate / 100);
   const total = subtotal + iva;
   setText('totSubtotal', '$' + subtotal.toFixed(2));
-  setText('ivaLabel', 'IVA (' + ivaRate.toFixed(2).replace(/\.00$/, '') + '%)');
+  setText('ivaLabel', 'IVA (' + ivaRate.toFixed(2) + '%)');
   setText('totIva', '$' + iva.toFixed(2));
   setText('totGrand', '$' + total.toFixed(2));
 }
