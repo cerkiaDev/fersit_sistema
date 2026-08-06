@@ -5,7 +5,8 @@ import os
 from django.contrib import messages
 from django.db import transaction
 from django.db.models import Q
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
+from django.http.multipartparser import MultiPartParser
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import (
@@ -136,21 +137,28 @@ def admin_productos(request):
 
 def admin_producto_editar(request, pk):
     producto = get_object_or_404(Producto, pk=pk)
-    if request.method == 'POST':
-        form = ProductoForm(request.POST, request.FILES, instance=producto)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Producto actualizado correctamente.')
-            return redirect('admin_productos')
-        messages.error(request, 'Revise los datos del producto.')
-    else:
-        form = ProductoForm(instance=producto)
+    if request.method != 'PATCH':
+        return JsonResponse({'detail': 'Método no permitido.'}, status=405)
 
-    return render(
+    data, files = MultiPartParser(
+        request.META,
         request,
-        'panel/producto_editor.html',
-        {'active': 'productos', 'producto': producto, 'form': form},
-    )
+        request.upload_handlers,
+        request.encoding,
+    ).parse()
+    form = ProductoForm(data, files, instance=producto)
+    if not form.is_valid():
+        return JsonResponse({'errors': form.errors.get_json_data()}, status=400)
+
+    producto = form.save()
+    return JsonResponse({
+        'id': producto.pk,
+        'nombre': producto.nombre,
+        'descripcion': producto.descripcion or '',
+        'precio_base': f'{producto.precio_base:.2f}',
+        'activo': producto.activo,
+        'imagen_url': producto.imagen.url if producto.imagen else '',
+    })
 
 
 def admin_producto_eliminar(request, pk):

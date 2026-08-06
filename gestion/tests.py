@@ -1,6 +1,7 @@
 from decimal import Decimal
 
 from django.test import TestCase
+from django.test.client import BOUNDARY, MULTIPART_CONTENT, encode_multipart
 
 from .admin import DetalleCotizacionForm
 from .models import Cliente, Cotizacion, DetalleCotizacion, Producto, SolicitudCotizacion
@@ -130,3 +131,35 @@ class SolicitudCotizacionTests(TestCase):
         self.client.post('/panel/solicitudes/', {'solicitud_id': solicitud.pk, 'estado': 'activo'})
 
         self.assertEqual(Cliente.objects.filter(nombre='Ana Pérez').count(), 1)
+
+
+class ProductoEdicionModalTests(TestCase):
+    def test_endpoint_patch_actualiza_producto_y_devuelve_datos_para_la_fila(self):
+        producto = Producto.objects.create(
+            nombre='Sensor',
+            descripcion='Original',
+            precio_base=Decimal('12.00'),
+            activo=True,
+        )
+        body = encode_multipart(
+            BOUNDARY,
+            {
+                'nombre': 'Sensor magnético',
+                'descripcion': 'Actualizado',
+                'precio_base': '15.50',
+                'activo': '',
+            },
+        )
+
+        response = self.client.patch(
+            f'/panel/productos/{producto.pk}/editar/',
+            body,
+            content_type=MULTIPART_CONTENT,
+        )
+
+        self.assertEqual(response.status_code, 200)
+        producto.refresh_from_db()
+        self.assertEqual(producto.nombre, 'Sensor magnético')
+        self.assertEqual(producto.precio_base, Decimal('15.50'))
+        self.assertFalse(producto.activo)
+        self.assertEqual(response.json()['nombre'], 'Sensor magnético')
