@@ -27,7 +27,9 @@ function initQuoteEditor() {
   addBtn?.addEventListener('click', () => addQuoteLine());
   tbody?.addEventListener('input', recalcTotals);
   tbody?.addEventListener('change', recalcTotals);
-  ivaRate?.addEventListener('input', recalcTotals);
+  ['input', 'change', 'blur'].forEach((eventName) => {
+    ivaRate?.addEventListener(eventName, recalcTotals);
+  });
   tbody?.addEventListener('click', (event) => {
     const btn = event.target.closest('.btn-remove-row');
     if (!btn) return;
