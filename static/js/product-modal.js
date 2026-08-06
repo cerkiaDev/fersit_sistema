@@ -1,20 +1,21 @@
-/* Modal reutilizable para editar productos sin navegar fuera del catálogo. */
+/* Un solo modal para crear y editar productos sin salir del catálogo. */
 document.addEventListener('DOMContentLoaded', () => {
-  const modalElement = document.getElementById('editProductModal');
-  const form = document.getElementById('editProductForm');
+  const modalElement = document.getElementById('prodModal');
+  const form = document.getElementById('productForm');
   if (!modalElement || !form) return;
 
   const modal = new bootstrap.Modal(modalElement);
   let isEditModalOpen = false;
   let selectedProduct = null;
-  const name = document.getElementById('editProductName');
-  const description = document.getElementById('editProductDescription');
-  const price = document.getElementById('editProductPrice');
-  const image = document.getElementById('editProductImage');
-  const imageStatus = document.getElementById('editProductImageStatus');
-  const active = document.getElementById('editProductActive');
-  const errors = document.getElementById('editProductErrors');
-  const saveButton = document.getElementById('editProductSave');
+  const title = document.getElementById('productModalTitle');
+  const name = document.getElementById('productName');
+  const description = document.getElementById('productDescription');
+  const price = document.getElementById('productPrice');
+  const image = document.getElementById('productImage');
+  const imageStatus = document.getElementById('productImageStatus');
+  const active = document.getElementById('productoActivo');
+  const errors = document.getElementById('productFormErrors');
+  const saveButton = document.getElementById('productSave');
 
   document.querySelectorAll('.js-edit-product').forEach((button) => {
     button.addEventListener('click', () => {
@@ -28,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
         imagen: button.dataset.imagen || '',
       };
       isEditModalOpen = true;
+      title.textContent = 'Editar Producto';
       name.value = selectedProduct.nombre;
       description.value = selectedProduct.descripcion;
       price.value = selectedProduct.precio;
@@ -43,6 +45,15 @@ document.addEventListener('DOMContentLoaded', () => {
     imageStatus.textContent = image.files[0]?.name || 'Sin archivos seleccionados';
   });
 
+  modalElement.addEventListener('show.bs.modal', () => {
+    if (isEditModalOpen) return;
+    title.textContent = 'Nuevo Producto';
+    form.reset();
+    active.checked = true;
+    imageStatus.textContent = 'Sin archivos seleccionados';
+    hideErrors();
+  });
+
   modalElement.addEventListener('hidden.bs.modal', () => {
     isEditModalOpen = false;
     selectedProduct = null;
@@ -51,6 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   form.addEventListener('submit', async (event) => {
+    if (!isEditModalOpen) return;
     event.preventDefault();
     if (!selectedProduct || !form.reportValidity()) return;
 
