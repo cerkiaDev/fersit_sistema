@@ -184,6 +184,25 @@ section { padding: 4.5rem 0; }
 .login-card h1 { text-align: center; font-size: 1.5rem; margin-bottom: .35rem; }
 .login-card p.subtitle { text-align: center; color: var(--fersit-muted); margin-bottom: 1.75rem; font-size: .9rem; }
 
+.login-messages { margin-bottom: 1rem; }
+.login-alert {
+  padding: .7rem .9rem; border-radius: 10px; font-size: .92rem; font-weight: 500;
+  border: 1px solid transparent; margin-bottom: .75rem;
+}
+.login-alert:last-child { margin-bottom: 0; }
+.login-alert-success {
+  background: #eafaf1 !important; color: #0d6b3d !important; border-color: #bfe9cc !important;
+}
+.login-alert-error {
+  background: #fbe3e3 !important; color: #9f1d1d !important; border-color: #e7b1b1 !important;
+}
+.login-alert-info {
+  background: #dfeefb !important; color: #0a4a73 !important; border-color: #b7d6ee !important;
+}
+.login-alert-warning {
+  background: #fff7e5 !important; color: #9a6700 !important; border-color: #f3d38a !important;
+}
+
 /* ===== ADMIN LAYOUT ===== */
 .admin-body { background: var(--fersit-light); min-height: 100vh; }
 .admin-sidebar {

@@ -1,8 +1,11 @@
 from decimal import Decimal, InvalidOperation
+from functools import wraps
 from io import BytesIO
 import os
 
 from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db import transaction
 from django.db.models import Q
 from django.http import HttpResponse, JsonResponse
@@ -47,14 +50,42 @@ def cotizar(request):
     return render(request, 'public/cotizar.html', {'form': form})
 
 
+def _superuser_required(view_func):
+    @wraps(view_func)
+    @login_required(login_url='login')
+    @user_passes_test(lambda user: user.is_active and user.is_superuser, login_url='login')
+    def _wrapped_view(request, *args, **kwargs):
+        return view_func(request, *args, **kwargs)
+    return _wrapped_view
+
+
 def login_view(request):
+    if request.user.is_authenticated and request.user.is_superuser:
+        return redirect('admin_dashboard')
+
+    if request.method == 'POST':
+        username = request.POST.get('username', '').strip()
+        password = request.POST.get('password', '')
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None and user.is_active and user.is_superuser:
+            login(request, user)
+            messages.success(request, 'Sesión iniciada correctamente.')
+            return redirect('admin_dashboard')
+
+        messages.error(request, 'Credenciales inválidas. Debe ingresar un usuario administrador válido.')
+        return render(request, 'public/login.html', {'username': username})
+
     return render(request, 'public/login.html')
 
 
 def logout_view(request):
+    logout(request)
+    messages.info(request, 'Sesión cerrada.')
     return redirect('login')
 
 
+@_superuser_required
 def admin_dashboard(request):
     cotizaciones_recientes = Cotizacion.objects.select_related('cliente').order_by('-fecha', '-id')[:5]
     solicitudes_recientes = SolicitudCotizacion.objects.order_by('-fecha')[:5]
@@ -72,6 +103,7 @@ def admin_dashboard(request):
     return render(request, 'panel/dashboard.html', context)
 
 
+@_superuser_required
 def admin_clientes(request):
     if request.method == 'POST':
         form = ClienteForm(request.POST)
@@ -99,6 +131,7 @@ def admin_clientes(request):
     )
 
 
+@_superuser_required
 def admin_productos(request):
     if request.method == 'POST':
         form = ProductoForm(request.POST, request.FILES)
@@ -135,6 +168,7 @@ def admin_productos(request):
     )
 
 
+@_superuser_required
 def admin_producto_editar(request, pk):
     producto = get_object_or_404(Producto, pk=pk)
     if request.method != 'PATCH':
@@ -161,6 +195,7 @@ def admin_producto_editar(request, pk):
     })
 
 
+@_superuser_required
 def admin_producto_eliminar(request, pk):
     producto = get_object_or_404(Producto, pk=pk)
     if request.method != 'POST':
@@ -171,6 +206,7 @@ def admin_producto_eliminar(request, pk):
     return redirect('admin_productos')
 
 
+@_superuser_required
 def admin_cotizaciones(request):
     query = request.GET.get('q', '').strip()
     estado = request.GET.get('estado', '').strip()
@@ -197,6 +233,7 @@ def admin_cotizaciones(request):
     )
 
 
+@_superuser_required
 def admin_cotizacion_editor(request, pk=None):
     cotizacion = get_object_or_404(Cotizacion, pk=pk) if pk else None
 
@@ -235,6 +272,7 @@ def admin_cotizacion_editor(request, pk=None):
     )
 
 
+@_superuser_required
 def admin_cotizacion_pdf(request, pk):
     cotizacion = get_object_or_404(
         Cotizacion.objects.select_related('cliente').prefetch_related('detalles__producto'),
@@ -247,6 +285,7 @@ def admin_cotizacion_pdf(request, pk):
     return response
 
 
+@_superuser_required
 def admin_solicitudes(request):
     if request.method == 'POST':
         solicitud = get_object_or_404(SolicitudCotizacion, pk=request.POST.get('solicitud_id'))

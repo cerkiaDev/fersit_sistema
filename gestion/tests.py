@@ -1,7 +1,9 @@
 from decimal import Decimal
 
+from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.test.client import BOUNDARY, MULTIPART_CONTENT, encode_multipart
+from django.urls import reverse
 
 from .admin import DetalleCotizacionForm
 from .models import Cliente, Cotizacion, DetalleCotizacion, Producto, SolicitudCotizacion
@@ -162,3 +164,35 @@ class ProductoEdicionModalTests(TestCase):
         self.assertEqual(producto.precio_base, Decimal('15.50'))
         self.assertFalse(producto.activo)
         self.assertEqual(response.json()['nombre'], 'Sensor magnético')
+
+
+class LoginAdminTests(TestCase):
+    def test_panel_requiere_login_y_superusuario(self):
+        response = self.client.get(reverse('admin_dashboard'))
+
+        self.assertEqual(response.status_code, 302)
+        self.assertIn(reverse('login'), response['Location'])
+
+    def test_login_acepta_solo_credenciales_de_superusuario(self):
+        User = get_user_model()
+        user = User.objects.create_superuser(username='admin', email='admin@example.com', password='admin123')
+
+        response = self.client.post(
+            reverse('login'),
+            {'username': 'admin', 'password': 'admin123'},
+            follow=True,
+        )
+
+        self.assertRedirects(response, reverse('admin_dashboard'))
+        self.assertTrue(response.wsgi_request.user.is_authenticated)
+        self.assertTrue(user.is_superuser)
+
+    def test_login_rechaza_credenciales_invalidas(self):
+        response = self.client.post(
+            reverse('login'),
+            {'username': 'admin', 'password': 'password-mala'},
+            follow=True,
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Credenciales inválidas')
