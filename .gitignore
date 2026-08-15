@@ -18,6 +18,7 @@ staticfiles/
 # Sistema
 .DS_Store
 Thumbs.db
+.env
 
 # VS Code
 .vscode/
