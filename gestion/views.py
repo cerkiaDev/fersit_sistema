@@ -8,7 +8,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.db import transaction
 from django.db.models import Q
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, QueryDict
 from django.http.multipartparser import MultiPartParser
 from django.shortcuts import get_object_or_404, redirect, render
 
@@ -129,6 +129,27 @@ def admin_clientes(request):
         'panel/clientes.html',
         {'active': 'clientes', 'clientes': clientes, 'form': form, 'query': query},
     )
+
+
+@_superuser_required
+def admin_cliente_editar(request, pk):
+    cliente = get_object_or_404(Cliente, pk=pk)
+    if request.method != 'PATCH':
+        return JsonResponse({'detail': 'Método no permitido.'}, status=405)
+
+    form = ClienteForm(QueryDict(request.body), instance=cliente)
+    if not form.is_valid():
+        return JsonResponse({'errors': form.errors.get_json_data()}, status=400)
+
+    cliente = form.save()
+    return JsonResponse({
+        'id': cliente.pk,
+        'nombre': cliente.nombre,
+        'telefono': cliente.telefono or '',
+        'correo': cliente.correo or '',
+        'direccion': cliente.direccion or '',
+        'cedula_ruc': cliente.cedula_ruc or '',
+    })
 
 
 @_superuser_required

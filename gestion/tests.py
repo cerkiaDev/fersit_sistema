@@ -1,4 +1,5 @@
 from decimal import Decimal
+from urllib.parse import urlencode
 
 from django.contrib.auth import get_user_model
 from django.test import TestCase
@@ -164,6 +165,41 @@ class ProductoEdicionModalTests(TestCase):
         self.assertEqual(producto.precio_base, Decimal('15.50'))
         self.assertFalse(producto.activo)
         self.assertEqual(response.json()['nombre'], 'Sensor magnético')
+
+
+class ClienteEdicionModalTests(TestCase):
+    def setUp(self):
+        user = get_user_model().objects.create_superuser(
+            username='cliente-admin',
+            email='cliente-admin@example.com',
+            password='admin123',
+        )
+        self.client.force_login(user)
+
+    def test_endpoint_patch_actualiza_cliente_y_devuelve_datos(self):
+        cliente = Cliente.objects.create(
+            nombre='Cliente original',
+            telefono='0990000000',
+            correo='original@example.com',
+        )
+
+        response = self.client.patch(
+            f'/panel/clientes/{cliente.pk}/editar/',
+            urlencode({
+                'nombre': 'Cliente actualizado',
+                'telefono': '0981111111',
+                'correo': 'actualizado@example.com',
+                'direccion': 'Quito',
+                'cedula_ruc': '1790000000',
+            }),
+            content_type='application/x-www-form-urlencoded',
+        )
+
+        self.assertEqual(response.status_code, 200)
+        cliente.refresh_from_db()
+        self.assertEqual(cliente.nombre, 'Cliente actualizado')
+        self.assertEqual(cliente.cedula_ruc, '1790000000')
+        self.assertEqual(response.json()['correo'], 'actualizado@example.com')
 
 
 class LoginAdminTests(TestCase):

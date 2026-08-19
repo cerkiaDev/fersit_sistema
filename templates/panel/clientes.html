@@ -2,10 +2,11 @@
 {% block title %}Clientes - FERSIT Admin{% endblock %}
 {% block topbar_title %}Clientes{% endblock %}
 {% block topbar_subtitle %}Gestión de clientes{% endblock %}
+{% load static %}
 {% block content %}
 <div class="page-header">
       <div><h1>Clientes</h1><div class="breadcrumb-mini">Inicio / Clientes</div></div>
-      <button class="btn btn-fersit" data-bs-toggle="modal" data-bs-target="#clienteModal"><i class="bi bi-plus-lg"></i> Nuevo Cliente</button>
+  <button type="button" class="btn btn-fersit js-new-client" data-bs-toggle="modal" data-bs-target="#clienteModal"><i class="bi bi-plus-lg"></i> Nuevo Cliente</button>
     </div>
 
     <div class="fersit-table-card">
@@ -17,7 +18,7 @@
           <thead><tr><th>#</th><th>Nombre</th><th>Teléfono</th><th>Correo</th><th>Dirección</th><th>Cédula/RUC</th><th>Estado</th><th class="text-end">Acciones</th></tr></thead>
           <tbody>
             {% for cliente in clientes %}
-              <tr><td>{{ cliente.pk|stringformat:"03d" }}</td><td class="fw-semibold">{{ cliente.nombre }}</td><td>{{ cliente.telefono|default:"" }}</td><td>{{ cliente.correo|default:"" }}</td><td>{{ cliente.direccion|default:"" }}</td><td>{{ cliente.cedula_ruc|default:"" }}</td><td><span class="badge-status badge-active">Activo</span></td><td class="text-end"></td></tr>
+              <tr data-client-id="{{ cliente.pk }}"><td>{{ cliente.pk|stringformat:"03d" }}</td><td class="fw-semibold" data-field="nombre">{{ cliente.nombre }}</td><td data-field="telefono">{{ cliente.telefono|default:"" }}</td><td data-field="correo">{{ cliente.correo|default:"" }}</td><td data-field="direccion">{{ cliente.direccion|default:"" }}</td><td data-field="cedula_ruc">{{ cliente.cedula_ruc|default:"" }}</td><td><span class="badge-status badge-active">Activo</span></td><td class="text-end"><button type="button" class="btn btn-sm btn-sm-icon btn-outline-secondary js-edit-client" title="Editar" data-id="{{ cliente.pk }}" data-url="{% url 'admin_cliente_editar' cliente.pk %}" data-nombre="{{ cliente.nombre }}" data-telefono="{{ cliente.telefono|default:'' }}" data-correo="{{ cliente.correo|default:'' }}" data-direccion="{{ cliente.direccion|default:'' }}" data-cedula-ruc="{{ cliente.cedula_ruc|default:'' }}"><i class="bi bi-pencil"></i></button></td></tr>
             {% empty %}
               <tr><td colspan="8" class="text-center text-muted py-4">Sin clientes registrados.</td></tr>
             {% endfor %}
@@ -31,19 +32,21 @@
 
     <div class="modal fade" id="clienteModal" tabindex="-1" aria-hidden="true">
       <div class="modal-dialog">
-        <form class="modal-content" method="post">
+        <form class="modal-content" id="clientForm" method="post">
           {% csrf_token %}
-          <div class="modal-header"><h5 class="modal-title">Nuevo Cliente</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
+          <div class="modal-header"><h5 class="modal-title" id="clientModalTitle">Nuevo Cliente</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
           <div class="modal-body">
-            <div class="mb-3"><label class="form-label">Nombre *</label><input name="nombre" class="form-control" required></div>
-            <div class="mb-3"><label class="form-label">Teléfono</label><input name="telefono" class="form-control"></div>
-            <div class="mb-3"><label class="form-label">Correo</label><input name="correo" type="email" class="form-control"></div>
-            <div class="mb-3"><label class="form-label">Dirección</label><input name="direccion" class="form-control"></div>
-            <div class="mb-3"><label class="form-label">Cédula/RUC</label><input name="cedula_ruc" class="form-control"></div>
+            <div id="clientFormErrors" class="alert alert-danger d-none mb-3" role="alert"></div>
+            <div class="mb-3"><label class="form-label" for="clientName">Nombre *</label><input id="clientName" name="nombre" class="form-control" required></div>
+            <div class="mb-3"><label class="form-label" for="clientPhone">Teléfono</label><input id="clientPhone" name="telefono" class="form-control"></div>
+            <div class="mb-3"><label class="form-label" for="clientEmail">Correo</label><input id="clientEmail" name="correo" type="email" class="form-control"></div>
+            <div class="mb-3"><label class="form-label" for="clientAddress">Dirección</label><input id="clientAddress" name="direccion" class="form-control"></div>
+            <div class="mb-3"><label class="form-label" for="clientTaxId">Cédula/RUC</label><input id="clientTaxId" name="cedula_ruc" class="form-control"></div>
           </div>
-          <div class="modal-footer"><button type="button" class="btn btn-fersit-outline" data-bs-dismiss="modal">Cancelar</button><button class="btn btn-fersit">Guardar</button></div>
+          <div class="modal-footer"><button type="button" class="btn btn-fersit-outline" data-bs-dismiss="modal">Cancelar</button><button class="btn btn-fersit" id="clientSave">Guardar</button></div>
         </form>
       </div>
     </div>
 {% endblock %}
+  {% block extra_js %}<script src="{% static 'js/client-modal.js' %}"></script>{% endblock %}
 
